@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KartTracker</string>
+
+    <string name="navigation_drawer_open">Ouvrir le drawer de navigation</string>
+    <string name="navigation_drawer_close">Fermer le drawer de navigation</string>
+
+    <string name="action_settings">Paramètres</string>
+    <string name="create_track_dialog_title">Entrez le nom du circuit</string>
+    <string name="create_track_dialog_ok">OK</string>
+    <string name="create_track_dialog_cancel">ANNULER</string>
+</resources>
