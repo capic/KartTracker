@@ -12,8 +12,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import capic.com.greendao_gen.models.Track;
 import capic.com.karttracker.R;
-import capic.com.karttracker.models.Track;
+
 
 /**
  * Created by Vincent on 25/04/2017.
@@ -40,7 +41,7 @@ public class TrackAdapter extends ArrayAdapter<Track> {
 
         TextView trackNameText = (TextView) convertView.findViewById(R.id.track_name_text);
 
-        trackNameText.setText(track.getmName());
+        trackNameText.setText(track.getMName());
 
         Log.d("TrackAdapter.getView", "track: " + track.toString());
 

@@ -17,30 +17,32 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.List;
 
+import capic.com.greendao_gen.models.DaoSession;
+import capic.com.greendao_gen.models.Track;
+import capic.com.greendao_gen.models.TrackDao;
+import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.adapters.TrackAdapter;
-import capic.com.karttracker.models.Track;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // TEMPORAIRE
-    List<Track> tracksList = Arrays.asList(
-            new Track(1L, "Circuit 1"),
-            new Track(2L, "Circuit 2"),
-            new Track(3L, "Circuit 3"));
-
+    private TrackDao trackDao;
     private ListView tracksListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DaoSession daoSession = ((KartTracker) getApplication()).getDaoSession();
+        trackDao = daoSession.getTrackDao();
+
+        List<Track> tracksList = trackDao.queryBuilder().orderAsc(TrackDao.Properties.MName).build().list();
 
         tracksListView = (ListView) findViewById(R.id.tracksListView);
 
@@ -58,7 +60,16 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText editText = (EditText) ((AlertDialog) dialog).findViewById(R.id.create_track_dialog_track_name_edittext);
+
                                 Log.d("MainActivity.onCreate", editText.getText().toString());
+
+                                Track trackToInsert = new Track();
+                                trackToInsert.setMName(editText.getText().toString());
+
+                                trackDao.insert(trackToInsert);
+                                Log.d("MainActivity.onCreate", "Track inserted: " + trackToInsert.toString());
+
+                                // redirect to sessions list
                             }
                         })
                         .setNegativeButton(R.string.create_track_dialog_cancel, new DialogInterface.OnClickListener() {
