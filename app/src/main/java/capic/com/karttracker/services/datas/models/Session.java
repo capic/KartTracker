@@ -1,13 +1,17 @@
 package capic.com.karttracker.services.datas.models;
 
+import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
-
-import java.util.Date;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.converter.PropertyConverter;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import java.util.Date;
 
 /**
  * Created by capic on 15/05/2017.
@@ -23,7 +27,8 @@ public class Session {
     private Long mIdOfDay;
 
     @Property(nameInDb = "date")
-    private Date mDate;
+    @Convert(converter = DateConverter.class, columnType = Date.class)
+    private LocalDate mDate;
 
     @Property(nameInDb = "track_id")
     private Long mTrackId;
@@ -39,8 +44,8 @@ public class Session {
     @Generated(hash = 1616835709)
     private transient SessionDao myDao;
 
-    @Generated(hash = 96189326)
-    public Session(Long mId, Long mIdOfDay, Date mDate, Long mTrackId) {
+    @Generated(hash = 1854552827)
+    public Session(Long mId, Long mIdOfDay, LocalDate mDate, Long mTrackId) {
         this.mId = mId;
         this.mIdOfDay = mIdOfDay;
         this.mDate = mDate;
@@ -67,11 +72,11 @@ public class Session {
         this.mIdOfDay = mIdOfDay;
     }
 
-    public Date getMDate() {
+    public LocalDate getMDate() {
         return this.mDate;
     }
 
-    public void setMDate(Date mDate) {
+    public void setMDate(LocalDate mDate) {
         this.mDate = mDate;
     }
 
@@ -156,5 +161,18 @@ public class Session {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getSessionDao() : null;
+    }
+
+    public static class DateConverter implements PropertyConverter<LocalDate, Date> {
+
+        @Override
+        public LocalDate convertToEntityProperty(Date databaseValue) {
+             return databaseValue == null ? null : new LocalDate(databaseValue);
+        }
+
+        @Override
+        public Date convertToDatabaseValue(LocalDate entityProperty) {
+            return entityProperty == null ? null :  entityProperty.toDate();
+        }
     }
 }

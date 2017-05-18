@@ -6,6 +6,8 @@ import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.ui.tracks.TracksContract;
 import capic.com.karttracker.ui.tracks.TracksPresenter;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesContract;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesPresenter;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsContract;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsPresenter;
 import dagger.Module;
@@ -27,5 +29,11 @@ public class PresenterModule {
     @Provides
     TrackSessionsContract.Presenter provideTrackSessionsPresenter(TrackSessionsRepository repository) {
         return new TrackSessionsPresenter(repository);
+    }
+
+    @Singleton
+    @Provides
+    TrackSessionDatesContract.Presenter provideTrackSessionDatesPresenter(TrackSessionsRepository repository) {
+        return new TrackSessionDatesPresenter(repository);
     }
 }

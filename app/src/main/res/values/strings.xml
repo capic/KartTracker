@@ -8,5 +8,8 @@
     <string name="create_track_dialog_title">Entrer trackData name</string>
     <string name="create_track_dialog_ok">OK</string>
     <string name="create_track_dialog_cancel">CANCEL</string>
-    <string name="title_activity_track">TrackActivity</string>
+    <string name="title_activity_track_sessions">Sessions of %1$s</string>
+    <string name="title_activity_tracks">Tracks</string>
+    <string name="track_session_name_text">Session %1$d</string>
+    <string name="title_activity_track_session_dates">TrackSessionDatesActivity</string>
 </resources>

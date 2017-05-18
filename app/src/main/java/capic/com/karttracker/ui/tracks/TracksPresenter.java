@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracks;
 
+import org.joda.time.LocalDate;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,6 +49,11 @@ public class TracksPresenter implements TracksContract.Presenter {
 
     @Override
     public void onTrackItemClicked(Track track) {
-       // mView.openTrackActivity(track.getMId());
+       mView.openTrackSessionDatesActivity(track.getMId());
+    }
+
+    @Override
+    public void onTrackPlayItemClicked(Track track) {
+        mView.openTrackSessionsActivity(track.getMId(), LocalDate.now());
     }
 }

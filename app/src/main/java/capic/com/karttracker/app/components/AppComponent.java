@@ -6,6 +6,7 @@ import capic.com.karttracker.app.modules.AppModule;
 import capic.com.karttracker.app.modules.DataModule;
 import capic.com.karttracker.app.modules.PresenterModule;
 import capic.com.karttracker.ui.tracks.TracksActivity;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 import dagger.Component;
 
@@ -18,4 +19,5 @@ import dagger.Component;
 public interface AppComponent {
     void inject(TracksActivity activity);
     void inject(TrackSessionsActivity activity);
+    void inject(TrackSessionDatesActivity activity);
 }

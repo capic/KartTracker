@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracksessions;
 
+import org.joda.time.LocalDate;
+
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class TrackSessionsPresenter implements TrackSessionsContract.Presenter {
     }
 
     @Override
-    public void loadTrackSessions(Long trackId, Date sessionDate) {
+    public void loadTrackSessions(Long trackId, LocalDate sessionDate) {
         mView.showLoading();
         List<Session> sessionDataList = mTrackSessionsRepository.getSessionsByTrackAndDate(trackId, sessionDate);
         mView.showTrackSession(sessionDataList);
@@ -35,7 +37,23 @@ public class TrackSessionsPresenter implements TrackSessionsContract.Presenter {
     }
 
     @Override
-    public void onStartNewSessionClicked() {
+    public void onStartNewSessionClicked(Long trackId) {
+        mView.showLoading();
 
+        LocalDate today = LocalDate.now();
+
+        Session lastSession = mTrackSessionsRepository.getLastSessionByTrackAndDate(trackId, today);
+        Long lastSessionId = lastSession == null ? 0: lastSession.getMIdOfDay();
+
+
+        Session session = new Session();
+        session.setMDate(today);
+        session.setMIdOfDay(lastSessionId + 1);
+        session.setMTrackId(trackId);
+
+        mTrackSessionsRepository.insertSession(session);
+
+
+        mView.hideLoading();
     }
 }

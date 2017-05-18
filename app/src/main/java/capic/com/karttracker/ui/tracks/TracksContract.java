@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracks;
 
+import org.joda.time.LocalDate;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class TracksContract {
         void hideLoading();
         void showTracks(List<Track> tracksList);
         void showCreateTrack();
-        void openSessionsTrackActivity(Long trackId, Date sessionDate);
+        void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
+        void openTrackSessionDatesActivity(Long trackId);
     }
 
     public interface Presenter {
@@ -24,5 +27,6 @@ public class TracksContract {
         void onCreateTrackClicked();
         Track createTrack(Track track);
         void onTrackItemClicked(Track track);
+        void onTrackPlayItemClicked(Track track);
     }
 }

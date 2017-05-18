@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracksessions;
 
+import org.joda.time.LocalDate;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public interface TrackSessionsContract {
 
     public interface Presenter {
         void setView(TrackSessionsContract.View view);
-        void loadTrackSessions(Long trackId, Date sessionDate);
-        void onStartNewSessionClicked();
+        void loadTrackSessions(Long trackId, LocalDate sessionDate);
+        void onStartNewSessionClicked(Long trackId);
     }
 }

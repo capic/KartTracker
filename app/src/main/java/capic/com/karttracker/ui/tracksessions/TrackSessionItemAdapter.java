@@ -34,15 +34,17 @@ public class TrackSessionItemAdapter extends ArrayAdapter<Session>  {
 
         Session session = getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.track_session_list_item, parent, false);
+        if (session != null) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.track_session_list_item, parent, false);
+            }
+
+            TextView trackNameText = (TextView) convertView.findViewById(R.id.track_session_name_text);
+
+            trackNameText.setText(parent.getResources().getString(R.string.title_activity_track_sessions, session.getMIdOfDay().toString()));
+
+            Log.d("TrackSessionItemAdapter.getView", "sesionData: " + session.toString());
         }
-
-        TextView trackNameText = (TextView) convertView.findViewById(R.id.track_session_name_text);
-
-        trackNameText.setText(session.getMIdOfDay().toString());
-
-        Log.d("TrackSessionItemAdapter.getView", "sesionData: " + session.toString());
 
         return convertView;
     }

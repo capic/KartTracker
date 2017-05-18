@@ -14,10 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import org.joda.time.LocalDate;
 
 import java.util.Date;
 import java.util.List;
@@ -28,10 +29,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import butterknife.OnItemSelected;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
 
@@ -75,6 +76,7 @@ public class TracksActivity extends AppCompatActivity
     }
 
     protected void setUp() {
+        setTitle(R.string.title_activity_tracks);
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -177,6 +179,7 @@ public class TracksActivity extends AppCompatActivity
     @Override
     public void showTracks(List<Track> tracksList) {
         ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
+        ((TrackItemAdapter)adapter).setPresenter(mPresenter);
         mTracksListView.setAdapter(adapter);
 //        mTracksListView.getAdapter().notifyDataSetChanged();
     }
@@ -198,7 +201,7 @@ public class TracksActivity extends AppCompatActivity
 
                         trackData = mPresenter.createTrack(trackData);
 
-                        openSessionsTrackActivity(trackData.getMId(), new Date());
+                        openTrackSessionsActivity(trackData.getMId(), LocalDate.now());
 
                     }
                 })
@@ -211,13 +214,19 @@ public class TracksActivity extends AppCompatActivity
                 .show();
     }
     @Override
-    public void openSessionsTrackActivity(Long trackId, Date sessionDate) {
+    public void openTrackSessionsActivity(Long trackId, LocalDate sessionDate) {
         Intent intent = TrackSessionsActivity.getStartIntent(TracksActivity.this);
         intent.putExtra("trackId", trackId);
-        intent.putExtra("sessionDate", sessionDate.getTime());
+        intent.putExtra("sessionDate", sessionDate.toDate().getTime());
         startActivity(intent);
-        finish();
+//        finish();
     }
 
-
+    @Override
+    public void openTrackSessionDatesActivity(Long trackId) {
+        Intent intent = TrackSessionDatesActivity.getStartIntent(TracksActivity.this);
+        intent.putExtra("trackId", trackId);
+        startActivity(intent);
+//        finish();
+    }
 }

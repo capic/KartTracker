@@ -10,6 +10,11 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +30,9 @@ import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.ui.tracks.TrackItemAdapter;
 
 public class TrackSessionsActivity extends AppCompatActivity implements TrackSessionsContract.View {
+    private Long mTrackId;
+    private LocalDate mSessionDate;
+
     @Inject
     TrackSessionsContract.Presenter mPresenter;
 
@@ -47,13 +55,12 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_sessions);
 
-        Long trackId = null;
-        Date sessionDate = new Date();
+        mTrackId = null;
+        mSessionDate = LocalDate.now();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            trackId = extras.getLong("trackId");
-            sessionDate = new Date();
-            sessionDate.setTime(extras.getLong("sessionDate"));
+            mTrackId = extras.getLong("trackId");
+            mSessionDate = new LocalDate(new Date(extras.getLong("sessionDate")));
         }
 
         ((KartTracker)getApplication()).getAppComponent().inject(this);
@@ -64,18 +71,19 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
 
         setUp();
 
-        if (trackId != null && sessionDate != null) {
-            mPresenter.loadTrackSessions(trackId, sessionDate);
-        }
+        mPresenter.loadTrackSessions(mTrackId, mSessionDate);
     }
 
     protected void setUp() {
+        setTitle(getResources().getString(R.string.title_activity_track_sessions, mSessionDate.toString(((KartTracker)getApplication()).getDateFormat().toLocalizedPattern())));
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setSupportActionBar(toolbar);
     }
 
     @OnClick(R.id.fab)
     public void onStartNewSessionClicked() {
-        mPresenter.onStartNewSessionClicked();
+        mPresenter.onStartNewSessionClicked(mTrackId);
+//        mTrackSessionsListView.getAdapter().notifyAll();
     }
 
     @Override
