@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
+import capic.com.karttracker.utils.SessionUtils;
 
 /**
  * Created by capic on 15/05/2017.
@@ -40,16 +41,7 @@ public class TrackSessionsPresenter implements TrackSessionsContract.Presenter {
     public void onStartNewSessionClicked(Long trackId) {
         mView.showLoading();
 
-        LocalDate today = LocalDate.now();
-
-        Session lastSession = mTrackSessionsRepository.getLastSessionByTrackAndDate(trackId, today);
-        Long lastSessionId = lastSession == null ? 0: lastSession.getMIdOfDay();
-
-
-        Session session = new Session();
-        session.setMDate(today);
-        session.setMIdOfDay(lastSessionId + 1);
-        session.setMTrackId(trackId);
+        Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
 
         mTrackSessionsRepository.insertSession(session);
 

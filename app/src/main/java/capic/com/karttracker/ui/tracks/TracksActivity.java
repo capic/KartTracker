@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import org.joda.time.LocalDate;
 
@@ -37,7 +39,7 @@ import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
 
 public class TracksActivity extends AppCompatActivity
-        implements TracksContract.View, NavigationView.OnNavigationItemSelectedListener {
+        implements TracksContract.View, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener  {
 
     @Inject
     TracksContract.Presenter mPresenter;
@@ -56,6 +58,9 @@ public class TracksActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    @BindView(R.id.search_view)
+    SearchView searchView;
 
     private ActionBarDrawerToggle toggle;
 
@@ -97,6 +102,8 @@ public class TracksActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        searchView.setOnQueryTextListener(this);
     }
 
     @OnItemClick(R.id.tracksListView)
@@ -228,5 +235,16 @@ public class TracksActivity extends AppCompatActivity
         intent.putExtra("trackId", trackId);
         startActivity(intent);
 //        finish();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        ((TrackItemAdapter)mTracksListView.getAdapter()).getFilter().filter(newText);
+        return false;
     }
 }

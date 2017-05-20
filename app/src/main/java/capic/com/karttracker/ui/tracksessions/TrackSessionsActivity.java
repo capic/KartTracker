@@ -39,7 +39,7 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     @BindView(R.id.trackSessionsListView)
     ListView mTrackSessionsListView;
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbar_track_session)
     Toolbar toolbar;
 
     @BindView(R.id.fab)
@@ -75,9 +75,10 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     }
 
     protected void setUp() {
-        setTitle(getResources().getString(R.string.title_activity_track_sessions, mSessionDate.toString(((KartTracker)getApplication()).getDateFormat().toLocalizedPattern())));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle(getResources().getString(R.string.title_activity_track_sessions, mSessionDate.toString(((KartTracker)getApplication()).getDateFormat().toLocalizedPattern())));
     }
 
     @OnClick(R.id.fab)

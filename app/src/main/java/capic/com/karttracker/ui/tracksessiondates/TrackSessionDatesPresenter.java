@@ -8,9 +8,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsContract;
+import capic.com.karttracker.utils.SessionUtils;
 
 /**
  * Created by capic on 16/05/2017.
@@ -42,5 +44,16 @@ public class TrackSessionDatesPresenter implements TrackSessionDatesContract.Pre
     @Override
     public void onTrackSessionDateItemClicked(Long trackId, LocalDate date) {
         mView.openTrackSessionsActivity(trackId, date);
+    }
+
+    @Override
+    public void onStartNewSessionClicked(Long trackId) {
+        mView.showLoading();
+
+        Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
+
+        mTrackSessionsRepository.insertSession(session);
+
+        mView.hideLoading();
     }
 }

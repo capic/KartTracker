@@ -21,11 +21,20 @@
         </activity>
         <activity
             android:name=".ui.tracksessions.TrackSessionsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" android:parentActivityName=".ui.tracks.TracksActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.tracks.TracksActivity" />
+        </activity>
         <activity
             android:name=".ui.tracksessiondates.TrackSessionDatesActivity"
             android:label="@string/title_activity_track_session_dates"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.tracks.TracksActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.tracks.TracksActivity" />
+        </activity>
     </application>
 
 </manifest>

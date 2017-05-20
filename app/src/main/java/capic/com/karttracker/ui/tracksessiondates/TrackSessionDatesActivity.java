@@ -3,6 +3,7 @@ package capic.com.karttracker.ui.tracksessiondates;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
@@ -32,7 +34,10 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     @BindView(R.id.trackSessionDatesListView)
     ListView mTrackSessionDatesListView;
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
+
+    @BindView(R.id.toolbar_track_session_date)
     Toolbar toolbar;
 
     public static Intent getStartIntent(Context context) {
@@ -63,11 +68,10 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     }
 
     protected void setUp() {
-//        setSupportActionBar(toolbar);
-
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("DEDANS");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle("DEDANS");
     }
 
     @OnItemClick(R.id.trackSessionDatesListView)
@@ -75,6 +79,11 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
 //        String pattern = ((SimpleDateFormat) mDateFormat).toLocalizedPattern();
 //        DateTimeFormatter format = DateTimeFormat.forPattern(pattern);
         mPresenter.onTrackSessionDateItemClicked(mTrackId, (LocalDate)mTrackSessionDatesListView.getAdapter().getItem(position));
+    }
+
+    @OnClick(R.id.fab)
+    public void onStartNewSessionClicked() {
+        mPresenter.onStartNewSessionClicked(mTrackId);
     }
 
     @Override

@@ -25,5 +25,6 @@ public interface TrackSessionDatesContract {
         void setView(TrackSessionDatesContract.View view);
         void loadTrackSessionDates(Long trackId);
         void onTrackSessionDateItemClicked(Long trackId, LocalDate date);
+        void onStartNewSessionClicked(Long trackId);
     }
 }
