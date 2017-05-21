@@ -38,6 +38,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.tracks.TracksActivity" />
         </activity>
+
+        <uses-feature android:name="android.hardware.sensor.accelerometer"
+            android:required="true" />
+        <uses-feature android:name="android.hardware.sensor.gps"
+            android:required="true" />
     </application>
 
 </manifest>
