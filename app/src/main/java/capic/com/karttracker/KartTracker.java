@@ -36,6 +36,10 @@ public class KartTracker extends Application {
                .build();
     }
 
+    public void setAppComponent(AppComponent appComponent) {
+        mAppComponent = appComponent;
+    }
+
     public AppComponent getAppComponent() {
         return mAppComponent;
     }

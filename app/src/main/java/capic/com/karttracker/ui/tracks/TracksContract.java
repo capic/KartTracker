@@ -11,7 +11,7 @@ import capic.com.karttracker.services.datas.models.Track;
  * Created by capic on 29/04/2017.
  */
 
-public class TracksContract {
+public interface TracksContract {
     public interface View {
         void showLoading();
         void hideLoading();

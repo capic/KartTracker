@@ -47,13 +47,15 @@ public class TrackSessionDatesPresenter implements TrackSessionDatesContract.Pre
     }
 
     @Override
-    public void onStartNewSessionClicked(Long trackId) {
+    public Session onStartNewSessionClicked(Long trackId) {
         mView.showLoading();
 
         Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
 
-        mTrackSessionsRepository.insertSession(session);
+        Session sessionCreated = mTrackSessionsRepository.insertSession(session);
 
         mView.hideLoading();
+
+        return sessionCreated;
     }
 }
