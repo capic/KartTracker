@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.ui.tracks.TracksContract;
 
@@ -25,6 +26,6 @@ public interface TrackSessionDatesContract {
         void setView(TrackSessionDatesContract.View view);
         void loadTrackSessionDates(Long trackId);
         void onTrackSessionDateItemClicked(Long trackId, LocalDate date);
-        void onStartNewSessionClicked(Long trackId);
+        Session onStartNewSessionClicked(Long trackId);
     }
 }
