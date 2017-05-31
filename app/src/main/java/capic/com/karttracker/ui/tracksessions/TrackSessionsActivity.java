@@ -35,6 +35,7 @@ import capic.com.karttracker.ui.tracks.TrackItemAdapter;
 import capic.com.karttracker.ui.tracks.TracksActivity;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.utils.ButterKnifeUtils;
+import capic.com.karttracker.utils.ServiceUtils;
 
 public class TrackSessionsActivity extends AppCompatActivity implements TrackSessionsContract.View {
     private Long mTrackId;
@@ -92,7 +93,7 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
 
     @OnClick(R.id.fab)
     public void onStartNewSessionClicked() {
-        mPresenter.onStartNewSessionClicked(mTrackId);
+        mPresenter.onStartNewSessionClicked();
 //        mTrackSessionsListView.getAdapter().notifyAll();
     }
 
@@ -119,20 +120,34 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     }
 
     @Override
-    public void openSessionDatasActivity(Long sessionId) {
-        Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionsActivity.this);
-        intent.putExtra("trackId", mTrackId);
-        intent.putExtra("sessionId", sessionId);
-        startActivity(intent);
+    public void openSessionDatasActivity() {
+        openSessionDataActivityGeneric(null);
     }
 
     @Override
+    public void openSessionDatasActivity(Long sessionId) {
+        openSessionDataActivityGeneric(sessionId);
+    }
+
+    protected void openSessionDataActivityGeneric(Long sessionId) {
+        Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionsActivity.this);
+        intent.putExtra("trackId", mTrackId);
+        if (sessionId != null) {
+            intent.putExtra("sessionId", sessionId);
+        }
+        startActivity(intent);
+    }
+
+
+    @Override
     public void startGpsService() {
-        startService(new Intent(this, GpsService.class).putExtra("request", true));
+        ServiceUtils.startGpsService(this);
+//        startService(new Intent(this, GpsService.class).putExtra("request", true));
     }
 
     @Override
     public void stopGpsService() {
-        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
+        ServiceUtils.stopGpsService(this);
+//        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
     }
 }

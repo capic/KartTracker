@@ -42,6 +42,7 @@ import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
+import capic.com.karttracker.utils.ServiceUtils;
 
 
 public class TracksActivity extends AppCompatActivity
@@ -77,6 +78,8 @@ public class TracksActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
 
+        runtimePermissions();
+
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
@@ -111,7 +114,7 @@ public class TracksActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
-/*
+
     protected boolean runtimePermissions() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
@@ -124,14 +127,15 @@ public class TracksActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+/*
         if (requestCode == REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 startGpsService();
             }
         }
+ */
     }
-  */
+
     @OnItemClick(R.id.tracksListView)
     void onItemClick(int position) {
         Track track = (Track)mTracksListView.getAdapter().getItem(position);
@@ -285,11 +289,13 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public void startGpsService() {
-        startService(new Intent(this, GpsService.class).putExtra("request", true));
+        ServiceUtils.startGpsService(this);
+//        startService(new Intent(this, GpsService.class).putExtra("request", true));
     }
 
     @Override
     public void stopGpsService() {
-        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
+        ServiceUtils.stopGpsService(this);
+//        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
     }
 }

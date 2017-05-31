@@ -61,9 +61,9 @@ public class TrackSessionDatesPresenterTest {
 
     @Test
     public void onTrackSessionDateItemClicked_Test() {
-         mPresenter.onTrackSessionDateItemClicked(1L, LocalDate.parse("2017-01-01"));
+         mPresenter.onTrackSessionDateItemClicked(LocalDate.parse("2017-01-01"));
 
-        verify(mView).openTrackSessionsActivity(1L, LocalDate.parse("2017-01-01"));
+        verify(mView).openTrackSessionsActivity(LocalDate.parse("2017-01-01"));
     }
 
     @Test

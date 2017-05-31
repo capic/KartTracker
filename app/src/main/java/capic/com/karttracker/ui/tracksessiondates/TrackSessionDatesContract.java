@@ -19,13 +19,14 @@ public interface TrackSessionDatesContract {
         void showLoading();
         void hideLoading();
         void showTrackSessionDate(List<LocalDate> trackSessionDatesList);
-        void openTrackSessionsActivity(Long trackId, LocalDate date);
+        void openTrackSessionsActivity(LocalDate date);
+        void openSessionDatasActivity(Long sessionId);
     }
 
     public interface Presenter {
         void setView(TrackSessionDatesContract.View view);
         void loadTrackSessionDates(Long trackId);
-        void onTrackSessionDateItemClicked(Long trackId, LocalDate date);
+        void onTrackSessionDateItemClicked(LocalDate date);
         Session onStartNewSessionClicked(Long trackId);
     }
 }

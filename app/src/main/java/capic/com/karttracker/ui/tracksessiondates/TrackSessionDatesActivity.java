@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
+import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
 public class TrackSessionDatesActivity extends AppCompatActivity implements TrackSessionDatesContract.View {
@@ -41,8 +42,7 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     Toolbar toolbar;
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, TrackSessionDatesActivity.class);
-        return intent;
+        return new Intent(context, TrackSessionDatesActivity.class);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     void onItemClick(int position) {
 //        String pattern = ((SimpleDateFormat) mDateFormat).toLocalizedPattern();
 //        DateTimeFormatter format = DateTimeFormat.forPattern(pattern);
-        mPresenter.onTrackSessionDateItemClicked(mTrackId, (LocalDate)mTrackSessionDatesListView.getAdapter().getItem(position));
+        mPresenter.onTrackSessionDateItemClicked((LocalDate)mTrackSessionDatesListView.getAdapter().getItem(position));
     }
 
     @OnClick(R.id.fab)
@@ -103,11 +103,18 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     }
 
     @Override
-    public void openTrackSessionsActivity(Long trackId, LocalDate date) {
+    public void openTrackSessionsActivity(LocalDate date) {
         Intent intent = TrackSessionsActivity.getStartIntent(TrackSessionDatesActivity.this);
-        intent.putExtra("trackId", trackId);
+        intent.putExtra("trackId", mTrackId);
         intent.putExtra("sessionDate", date.toDate().getTime());
         startActivity(intent);
         //finish();
+    }
+
+    @Override
+    public void openSessionDatasActivity(Long sessionId) {
+        Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionDatesActivity.this);
+        intent.putExtra("trackId", mTrackId);
+        startActivity(intent);
     }
 }

@@ -38,14 +38,10 @@ public class TrackSessionsPresenter implements TrackSessionsContract.Presenter {
     }
 
     @Override
-    public void onStartNewSessionClicked(Long trackId) {
+    public void onStartNewSessionClicked() {
         mView.showLoading();
 
-        Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
-
-        mTrackSessionsRepository.insertSession(session);
-        mView.startGpsService(); // => ne pas oublier d'éteindre le service
-        mView.openSessionDatasActivity(session.getMId());
+        mView.openSessionDatasActivity();
 
         mView.hideLoading();
     }

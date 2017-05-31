@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.sessiondatas;
 
+import android.content.Context;
+
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
 
@@ -24,6 +26,7 @@ public interface SessionDatasContract {
         void onStopSessionDatasClicked();
         Track loadTrack(Long trackId);
         Session loadSession(Long sessionId);
+        void startNewSession(Context context, Long trackId);
     }
 
     public interface DatasPresenter {

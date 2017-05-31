@@ -46,8 +46,7 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 //    Toolbar mToolbar;
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, SessionDataMapsActivity.class);
-        return intent;
+        return new Intent(context, SessionDataMapsActivity.class);
     }
 
     private GoogleMap mMap;
@@ -71,6 +70,10 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
             if (extras.containsKey("sessionId")) {
                 mSession = mPresenter.loadSession(extras.getLong("sessionId"));
+            } else {
+                if (mTrack != null) {
+                    mPresenter.startNewSession(this, mTrack.getMId());
+                }
             }
         }
 

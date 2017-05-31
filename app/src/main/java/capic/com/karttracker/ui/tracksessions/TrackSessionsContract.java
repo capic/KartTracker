@@ -16,6 +16,7 @@ public interface TrackSessionsContract {
         void showLoading();
         void hideLoading();
         void showTrackSession(List<Session> trackSessions);
+        void openSessionDatasActivity();
         void openSessionDatasActivity(Long sessionId);
         void startGpsService();
         void stopGpsService();
@@ -24,7 +25,7 @@ public interface TrackSessionsContract {
     public interface Presenter {
         void setView(TrackSessionsContract.View view);
         void loadTrackSessions(Long trackId, LocalDate sessionDate);
-        void onStartNewSessionClicked(Long trackId);
+        void onStartNewSessionClicked();
         void onTrackSessionItemClicked(Session session);
     }
 }
