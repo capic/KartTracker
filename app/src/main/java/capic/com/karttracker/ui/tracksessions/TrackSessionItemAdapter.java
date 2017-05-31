@@ -24,7 +24,7 @@ public class TrackSessionItemAdapter extends ArrayAdapter<Session>  {
     private List<Session> mTrackSessionsList;
 
     public TrackSessionItemAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Session> objects) {
-        super(context, resource);
+        super(context, resource, objects);
         this.mTrackSessionsList = objects;
     }
 
@@ -41,7 +41,7 @@ public class TrackSessionItemAdapter extends ArrayAdapter<Session>  {
 
             TextView trackNameText = (TextView) convertView.findViewById(R.id.track_session_name_text);
 
-            trackNameText.setText(parent.getResources().getString(R.string.title_activity_track_sessions, session.getMIdOfDay().toString()));
+            trackNameText.setText(parent.getResources().getString(R.string.track_session_name_text, session.getMIdOfDay()));
 
             Log.d("TrackSessionItemAdapter.getView", "sesionData: " + session.toString());
         }

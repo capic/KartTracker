@@ -1,9 +1,14 @@
 package capic.com.karttracker.ui.tracks;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import android.support.v7.widget.SearchView;
@@ -34,12 +39,15 @@ import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
 
 public class TracksActivity extends AppCompatActivity
         implements TracksContract.View, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener  {
+
+    private static final int REQUEST_CODE = 100;
 
     @Inject
     TracksContract.Presenter mPresenter;
@@ -103,7 +111,27 @@ public class TracksActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
+/*
+    protected boolean runtimePermissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                startGpsService();
+            }
+        }
+    }
+  */
     @OnItemClick(R.id.tracksListView)
     void onItemClick(int position) {
         Track track = (Track)mTracksListView.getAdapter().getItem(position);
@@ -253,5 +281,15 @@ public class TracksActivity extends AppCompatActivity
     public boolean onQueryTextChange(String newText) {
         ((TrackItemAdapter)mTracksListView.getAdapter()).getFilter().filter(newText);
         return false;
+    }
+
+    @Override
+    public void startGpsService() {
+        startService(new Intent(this, GpsService.class).putExtra("request", true));
+    }
+
+    @Override
+    public void stopGpsService() {
+        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
     }
 }

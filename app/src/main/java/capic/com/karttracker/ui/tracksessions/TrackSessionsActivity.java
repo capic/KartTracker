@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,11 +24,17 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.gps.GpsService;
+import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.tracks.TrackItemAdapter;
+import capic.com.karttracker.ui.tracks.TracksActivity;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
+import capic.com.karttracker.utils.ButterKnifeUtils;
 
 public class TrackSessionsActivity extends AppCompatActivity implements TrackSessionsContract.View {
     private Long mTrackId;
@@ -36,7 +43,7 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     @Inject
     TrackSessionsContract.Presenter mPresenter;
 
-    @BindView(R.id.trackSessionsListView)
+    @BindView(R.id.track_sessions_list_view)
     ListView mTrackSessionsListView;
 
     @BindView(R.id.toolbar_track_session)
@@ -78,6 +85,8 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        ButterKnife.apply(mFab, ButterKnifeUtils.VISIBILITY, mSessionDate.equals(LocalDate.now()) ? View.VISIBLE : View.GONE);
+
         setTitle(getResources().getString(R.string.title_activity_track_sessions, mSessionDate.toString(((KartTracker)getApplication()).getDateFormat().toLocalizedPattern())));
     }
 
@@ -85,6 +94,12 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     public void onStartNewSessionClicked() {
         mPresenter.onStartNewSessionClicked(mTrackId);
 //        mTrackSessionsListView.getAdapter().notifyAll();
+    }
+
+    @OnItemClick(R.id.track_sessions_list_view)
+    void onItemClick(int position) {
+        Session session = (Session)mTrackSessionsListView.getAdapter().getItem(position);
+        mPresenter.onTrackSessionItemClicked(session);
     }
 
     @Override
@@ -101,5 +116,23 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     public void showTrackSession(List<Session> trackSessionsList) {
         ArrayAdapter<Session> adapter = new TrackSessionItemAdapter(this, R.layout.track_session_list_item, trackSessionsList);
         mTrackSessionsListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void openSessionDatasActivity(Long sessionId) {
+        Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionsActivity.this);
+        intent.putExtra("trackId", mTrackId);
+        intent.putExtra("sessionId", sessionId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startGpsService() {
+        startService(new Intent(this, GpsService.class).putExtra("request", true));
+    }
+
+    @Override
+    public void stopGpsService() {
+        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
     }
 }

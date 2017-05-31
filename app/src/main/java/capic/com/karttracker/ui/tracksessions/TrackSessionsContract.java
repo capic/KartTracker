@@ -16,11 +16,15 @@ public interface TrackSessionsContract {
         void showLoading();
         void hideLoading();
         void showTrackSession(List<Session> trackSessions);
+        void openSessionDatasActivity(Long sessionId);
+        void startGpsService();
+        void stopGpsService();
     }
 
     public interface Presenter {
         void setView(TrackSessionsContract.View view);
         void loadTrackSessions(Long trackId, LocalDate sessionDate);
         void onStartNewSessionClicked(Long trackId);
+        void onTrackSessionItemClicked(Session session);
     }
 }

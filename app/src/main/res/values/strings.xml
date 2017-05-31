@@ -11,5 +11,9 @@
     <string name="title_activity_track_sessions">Sessions of %1$s</string>
     <string name="title_activity_tracks">Tracks</string>
     <string name="track_session_name_text">Session %1$d</string>
-    <string name="title_activity_track_session_dates">TrackSessionDatesActivity</string>
+    <string name="title_activity_track_session_dates">%1$s</string>
+    <string name="title_activity_session_data_maps">%1$s - %2$s</string>
+    <string name="stop_button_session_datas">Stop</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

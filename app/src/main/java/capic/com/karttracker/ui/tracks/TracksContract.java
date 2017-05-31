@@ -1,11 +1,14 @@
 package capic.com.karttracker.ui.tracks;
 
+import android.content.Intent;
+
 import org.joda.time.LocalDate;
 
 import java.util.Date;
 import java.util.List;
 
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.gps.GpsService;
 
 /**
  * Created by capic on 29/04/2017.
@@ -19,6 +22,8 @@ public interface TracksContract {
         void showCreateTrack();
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
+        void startGpsService();
+        void stopGpsService();
     }
 
     public interface Presenter {

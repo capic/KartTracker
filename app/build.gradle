@@ -44,22 +44,17 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.5.1'
-    //date
     compile 'net.danlew:android.joda:2.9.9'
-    // DI
-    apt 'com.google.dagger:dagger-compiler:2.10'
-    // butterknife
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
-    provided 'javax.annotation:jsr250-api:1.0'
-
-    /** debug **/
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
-
-    /** test **/
+    compile 'com.google.android.gms:play-services-maps:10.2.6'
+    compile 'com.google.android.gms:play-services-location:10.2.6'
     testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.7.5"
-    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile 'org.mockito:mockito-core:2.7.5'
+    testCompile 'org.robolectric:robolectric:3.3.2'
     testCompile 'joda-time:joda-time:2.9.9'
-    testApt 'com.google.dagger:dagger-compiler:2.10'
     androidTestApt 'com.google.dagger:dagger-compiler:2.10'
+    apt 'com.google.dagger:dagger-compiler:2.10'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+    provided 'javax.annotation:jsr250-api:1.0'
+    testApt 'com.google.dagger:dagger-compiler:2.10'
 }
