@@ -21,8 +21,8 @@ import com.google.android.gms.location.LocationServices;
  */
 
 public class GpsService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    private static int GPS_INTERVAL = 0;
-    private static int GPS_FASTEST_INTERVAL = 0;
+    private static int GPS_INTERVAL = 2000;
+    private static int GPS_FASTEST_INTERVAL = 1000;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;

@@ -23,5 +23,5 @@ public interface AppComponent {
     void inject(TrackSessionsActivity activity);
     void inject(TrackSessionDatesActivity activity);
     void inject(SessionDataMapsActivity activity);
-//    void inject(SessionDatasFragment fragment);
+    void inject(SessionDatasFragment fragment);
 }
