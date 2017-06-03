@@ -12,8 +12,8 @@ import capic.com.karttracker.services.gps.GpsService;
  */
 
 public class ServiceUtils {
-    public static void startGpsService(Context context) {
-        context.startService(new Intent(context, GpsService.class).putExtra("request", true));
+    public static void startGpsService(Context context, Long sessionId) {
+        context.startService(new Intent(context, GpsService.class).putExtra("request", true).putExtra("sessionId", sessionId));
     }
 
     public static void stopGpsService(Context context) {

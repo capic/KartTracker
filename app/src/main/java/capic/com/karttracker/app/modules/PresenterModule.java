@@ -2,6 +2,7 @@ package capic.com.karttracker.app.modules;
 
 import javax.inject.Singleton;
 
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasContract;
@@ -42,8 +43,8 @@ public class PresenterModule {
 
     @Singleton
     @Provides
-    SessionDatasContract.MapsPresenter provideSessionDataMapsPresenter(TracksRepository trackRepository, TrackSessionsRepository trackSessionsRepository) {
-        return  new SessionDatasMapsPresenter(trackRepository, trackSessionsRepository);
+    SessionDatasContract.MapsPresenter provideSessionDataMapsPresenter(TracksRepository trackRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
+        return  new SessionDatasMapsPresenter(trackRepository, trackSessionsRepository, sessionGpsDatasRepository);
     }
 
     @Singleton

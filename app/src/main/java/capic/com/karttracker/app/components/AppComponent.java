@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import capic.com.karttracker.app.modules.AppModule;
 import capic.com.karttracker.app.modules.DataModule;
 import capic.com.karttracker.app.modules.PresenterModule;
+import capic.com.karttracker.services.gps.LocationListener;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasFragment;
 import capic.com.karttracker.ui.tracks.TracksActivity;
@@ -24,4 +25,6 @@ public interface AppComponent {
     void inject(TrackSessionDatesActivity activity);
     void inject(SessionDataMapsActivity activity);
     void inject(SessionDatasFragment fragment);
+
+    void inject(LocationListener receiver);
 }

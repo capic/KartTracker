@@ -21,11 +21,12 @@ import com.google.android.gms.location.LocationServices;
  */
 
 public class GpsService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    private static int GPS_INTERVAL = 2000;
-    private static int GPS_FASTEST_INTERVAL = 1000;
+    private static int GPS_INTERVAL = 0;
+    private static int GPS_FASTEST_INTERVAL = 0;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private LocationListener mLocationListener;
 
     @Nullable
     @Override
@@ -47,14 +48,18 @@ public class GpsService extends Service implements GoogleApiClient.ConnectionCal
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(GPS_INTERVAL)
                 .setFastestInterval(GPS_FASTEST_INTERVAL);
+
+        mLocationListener = new LocationListener(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (intent.getBooleanExtra("request", false)) {
+                mLocationListener.setSessionId(intent.getExtras().getLong("sessionId"));
                 if (mGoogleApiClient.isConnected()) {
                     LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getPendingIntent());
+                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mLocationListener);
                 } else {
                     mGoogleApiClient.connect();
                 }
@@ -72,6 +77,7 @@ public class GpsService extends Service implements GoogleApiClient.ConnectionCal
 
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, getPendingIntent());
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mLocationListener);
             mGoogleApiClient.disconnect();
         }
     }
@@ -84,6 +90,7 @@ public class GpsService extends Service implements GoogleApiClient.ConnectionCal
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, getPendingIntent());
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mLocationListener);
         }
     }
 

@@ -23,6 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
+import capic.com.karttracker.services.datas.models.SessionGpsData;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 
 /**
  * A simple {@link Fragment} subclass.

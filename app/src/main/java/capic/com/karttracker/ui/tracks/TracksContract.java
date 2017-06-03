@@ -22,8 +22,6 @@ public interface TracksContract {
         void showCreateTrack();
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
-        void startGpsService();
-        void stopGpsService();
     }
 
     public interface Presenter {

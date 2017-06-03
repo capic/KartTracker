@@ -2,7 +2,10 @@ package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
 
+import java.util.List;
+
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
 
 /**
@@ -27,6 +30,7 @@ public interface SessionDatasContract {
         Track loadTrack(Long trackId);
         Session loadSession(Long sessionId);
         void startNewSession(Context context, Long trackId);
+       void loadSessionGpsDatas(Long sessionId);
     }
 
     public interface DatasPresenter {

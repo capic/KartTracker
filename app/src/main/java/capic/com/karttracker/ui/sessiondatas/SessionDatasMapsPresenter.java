@@ -2,10 +2,14 @@ package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.ui.tracks.TracksContract;
@@ -21,11 +25,13 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
     TracksRepository mTracksRepository;
     TrackSessionsRepository mTrackSessionsRepository;
+    SessionGpsDatasRepository mSessionGpsDatasRepository;
 
     @Inject
-    public SessionDatasMapsPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository) {
+    public SessionDatasMapsPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
         mTracksRepository = tracksRepository;
         mTrackSessionsRepository = trackSessionsRepository;
+        mSessionGpsDatasRepository = sessionGpsDatasRepository;
     }
 
     @Override
@@ -52,7 +58,15 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
     public void startNewSession(Context context, Long trackId) {
         Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
 
-        mTrackSessionsRepository.insertSession(session);
-        ServiceUtils.startGpsService(context);
+        Session sessionInserted = mTrackSessionsRepository.insertSession(session);
+        ServiceUtils.startGpsService(context, sessionInserted.getMId());
+    }
+
+    @Override
+    public void loadSessionGpsDatas(Long sessionId) {
+        mView.showLoading();
+        List<SessionGpsData> sessionGpsDataList = mSessionGpsDatasRepository.getSessionGpsDatasBySession(sessionId);
+
+        mView.hideLoading();
     }
 }
