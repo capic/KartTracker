@@ -23,6 +23,8 @@ import capic.com.karttracker.utils.SessionUtils;
 public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPresenter {
     SessionDatasContract.MapsView mView;
 
+    private List<SessionGpsData> mSessionGpsDataList;
+
     TracksRepository mTracksRepository;
     TrackSessionsRepository mTrackSessionsRepository;
     SessionGpsDatasRepository mSessionGpsDatasRepository;
@@ -60,13 +62,5 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
         Session sessionInserted = mTrackSessionsRepository.insertSession(session);
         ServiceUtils.startGpsService(context, sessionInserted.getMId());
-    }
-
-    @Override
-    public void loadSessionGpsDatas(Long sessionId) {
-        mView.showLoading();
-        List<SessionGpsData> sessionGpsDataList = mSessionGpsDatasRepository.getSessionGpsDatasBySession(sessionId);
-
-        mView.hideLoading();
     }
 }

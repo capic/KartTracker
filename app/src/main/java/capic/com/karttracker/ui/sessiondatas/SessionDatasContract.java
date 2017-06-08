@@ -22,6 +22,7 @@ public interface SessionDatasContract {
     public interface DatasView {
         void showLoading();
         void hideLoading();
+        void showSessionDatasGps(List<SessionGpsData> list);
     }
 
     public interface MapsPresenter {
@@ -30,11 +31,11 @@ public interface SessionDatasContract {
         Track loadTrack(Long trackId);
         Session loadSession(Long sessionId);
         void startNewSession(Context context, Long trackId);
-       void loadSessionGpsDatas(Long sessionId);
     }
 
     public interface DatasPresenter {
         void setView(SessionDatasContract.DatasView view);
-
+        void loadSessionGpsDatas(Long sessionId);
+        void loadForTracking();
     }
 }

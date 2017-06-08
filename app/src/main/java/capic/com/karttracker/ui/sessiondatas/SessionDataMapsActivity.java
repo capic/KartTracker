@@ -59,6 +59,9 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        SessionDatasPagerFragment sessionDatasPagerFragment = (SessionDatasPagerFragment) getSupportFragmentManager().findFragmentById(R.id.session_datas_pager_fragment);
+
+
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
         mPresenter.setView(this);
@@ -73,11 +76,12 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
             if (extras.containsKey("sessionId")) {
                 session = mPresenter.loadSession(extras.getLong("sessionId"));
-                mPresenter.loadSessionGpsDatas(session.getMId());
-
+//                mPresenter.loadSessionGpsDatas(session.getMId());
+                sessionDatasPagerFragment.init(session);
             } else {
                 if (track != null) {
                     mPresenter.startNewSession(this, track.getMId());
+                    sessionDatasPagerFragment.initForTracking();
                 }
             }
         }

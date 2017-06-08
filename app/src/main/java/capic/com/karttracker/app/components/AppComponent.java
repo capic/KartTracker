@@ -8,6 +8,7 @@ import capic.com.karttracker.app.modules.PresenterModule;
 import capic.com.karttracker.services.gps.LocationListener;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasFragment;
+import capic.com.karttracker.ui.sessiondatas.SessionDatasPagerFragment;
 import capic.com.karttracker.ui.tracks.TracksActivity;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
@@ -24,7 +25,7 @@ public interface AppComponent {
     void inject(TrackSessionsActivity activity);
     void inject(TrackSessionDatesActivity activity);
     void inject(SessionDataMapsActivity activity);
-    void inject(SessionDatasFragment fragment);
+    void inject(SessionDatasPagerFragment fragment);
 
     void inject(LocationListener receiver);
 }

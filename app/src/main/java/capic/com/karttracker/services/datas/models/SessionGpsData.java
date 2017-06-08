@@ -7,12 +7,16 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import java.io.Serializable;
+
 /**
  * Created by Vincent on 01/06/2017.
  */
 
 @Entity
-public class SessionGpsData {
+public class SessionGpsData implements Serializable{
+    static final long serialVersionUID = 1L;
+
     @Id
     @Property(nameInDb = "id")
     private Long mId;

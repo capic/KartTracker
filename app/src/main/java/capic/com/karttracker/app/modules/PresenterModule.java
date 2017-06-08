@@ -49,7 +49,7 @@ public class PresenterModule {
 
     @Singleton
     @Provides
-    SessionDatasContract.DatasPresenter provideSessionDatasDatasPresenter() {
-        return  new SessionDatasDatasPresenter();
+    SessionDatasContract.DatasPresenter provideSessionDatasDatasPresenter(SessionGpsDatasRepository repository) {
+        return  new SessionDatasDatasPresenter(repository);
     }
 }

@@ -17,14 +17,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.LocationResult;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +30,9 @@ import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.Session
  * Use the {@link SessionDatasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SessionDatasFragment extends Fragment implements SessionDatasContract.DatasView {
+public class SessionDatasFragment extends Fragment {
+    private SessionGpsData mSessionGpsData;
+
     @BindView(R.id.text_longitude_value)
     TextView textLongitudeValue;
 
@@ -44,30 +42,26 @@ public class SessionDatasFragment extends Fragment implements SessionDatasContra
     @BindView(R.id.text_altitude_value)
     TextView textAltitudeValue;
 
-    @Inject
-    SessionDatasContract.DatasPresenter mPresenter;
+    static  SessionDatasFragment init(SessionGpsData val) {
+        SessionDatasFragment inst = new SessionDatasFragment();
+        // Supply val input as an argument.
+        Bundle args = new Bundle();
+        args.putSerializable("val", val);
+        inst.setArguments(args);
+        return inst;
+    }
 
-    private OnFragmentInteractionListener mListener;
     private InternalLocationReceiver mInternalLocationReceiver;
 
     public SessionDatasFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SessionDatasFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static SessionDatasFragment newInstance(String param1, String param2) {
+    public static SessionDatasFragment newInstance() {
         SessionDatasFragment fragment = new SessionDatasFragment();
         Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,8 +70,8 @@ public class SessionDatasFragment extends Fragment implements SessionDatasContra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((KartTracker)getActivity().getApplication()).getAppComponent().inject(this);
         mInternalLocationReceiver = new InternalLocationReceiver(this);
+        mSessionGpsData = (SessionGpsData) getArguments().getSerializable("val");
         /*
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -93,31 +87,22 @@ public class SessionDatasFragment extends Fragment implements SessionDatasContra
         View view = inflater.inflate(R.layout.fragment_session_datas, container, false);
         ButterKnife.bind(this, view);
 
+        textLongitudeValue.setText(String.valueOf(mSessionGpsData.getMLongitude()));
+        textLatitudeValue.setText(String.valueOf(mSessionGpsData.getMLatitude()));
+        textAltitudeValue.setText(String.valueOf(mSessionGpsData.getMAltitude()));
+
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -131,18 +116,6 @@ public class SessionDatasFragment extends Fragment implements SessionDatasContra
         super.onPause();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mInternalLocationReceiver);
     }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-
 
     /**
      * This interface must be implemented by activities that contain this
