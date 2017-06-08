@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
-import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 
 /**
@@ -26,9 +25,9 @@ import capic.com.karttracker.services.datas.models.SessionGpsData;
  */
 
 public class SessionDatasPagerFragment extends Fragment implements SessionDatasContract.DatasView {
-    SessionDatasPagerAdapter mSessionDatasPagerAdapter;
+    private static final String ARG_SESSION_ID = "sessionId";
 
-    private Session mSession;
+    SessionDatasPagerAdapter mSessionDatasPagerAdapter;
 
     @Inject
     SessionDatasContract.DatasPresenter mPresenter;
@@ -39,21 +38,12 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     public  SessionDatasPagerFragment() {
     }
 
-    public static SessionDatasPagerFragment newInstance() {
+    public static SessionDatasPagerFragment newInstance(Long sessionId) {
         SessionDatasPagerFragment fragment = new SessionDatasPagerFragment();
         Bundle args = new Bundle();
+        args.putLong(ARG_SESSION_ID, sessionId);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public void init(Session session) {
-        mSession = session;
-        mPresenter.loadSessionGpsDatas(mSession.getMId());
-    }
-
-    public void initForTracking() {
-        mSession = null;
-        mPresenter.loadForTracking();
     }
 
     @Override
@@ -62,7 +52,6 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
 
         ((KartTracker)getActivity().getApplication()).getAppComponent().inject(this);
 
-        mPresenter.setView(this);
 
     }
 
@@ -72,6 +61,11 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
         View v = inflater.inflate(R.layout.fragment_session_datas_pager, container, false);
 
         ButterKnife.bind(this, v);
+        mPresenter.setView(this);
+
+        if (getArguments() != null) {
+            mPresenter.loadSessionGpsDatas(getArguments().getLong(ARG_SESSION_ID));
+        }
 
         // Inflate the layout for this fragment
         return v;

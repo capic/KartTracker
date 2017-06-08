@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -59,8 +60,6 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        SessionDatasPagerFragment sessionDatasPagerFragment = (SessionDatasPagerFragment) getSupportFragmentManager().findFragmentById(R.id.session_datas_pager_fragment);
-
 
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
@@ -77,11 +76,16 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
             if (extras.containsKey("sessionId")) {
                 session = mPresenter.loadSession(extras.getLong("sessionId"));
 //                mPresenter.loadSessionGpsDatas(session.getMId());
-                sessionDatasPagerFragment.init(session);
+
+                SessionDatasPagerFragment sessionDatasPagerFragment = SessionDatasPagerFragment.newInstance(session.getMId());
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.session_datas_frame, sessionDatasPagerFragment);
+                transaction.commit();
+
             } else {
                 if (track != null) {
                     mPresenter.startNewSession(this, track.getMId());
-                    sessionDatasPagerFragment.initForTracking();
+//                    sessionDatasPagerFragment.initForTracking();
                 }
             }
         }

@@ -31,15 +31,19 @@
 
     </RelativeLayout>
 
-
-
-    <fragment
-        android:id="@+id/session_datas_pager_fragment"
-        android:name="capic.com.karttracker.ui.sessiondatas.SessionDatasPagerFragment"
+    <FrameLayout
+        android:id="@+id/session_datas_frame"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_weight="1"
-        tools:layout="@layout/fragment_session_datas" />
+        android:layout_height="0dp"></FrameLayout>
+
+    <!--<fragment-->
+        <!--android:id="@+id/session_datas_pager_fragment"-->
+        <!--android:name="capic.com.karttracker.ui.sessiondatas.SessionDatasPagerFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--tools:layout="@layout/fragment_session_datas" />-->
 
 </LinearLayout>
 
