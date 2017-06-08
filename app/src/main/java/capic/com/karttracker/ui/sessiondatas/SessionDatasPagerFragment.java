@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnPageChange;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
@@ -95,5 +96,10 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     public void showSessionDatasGps(List<SessionGpsData> list) {
         mSessionDatasPagerAdapter = new SessionDatasPagerAdapter(getChildFragmentManager(), list);
         mPager.setAdapter(mSessionDatasPagerAdapter);
+    }
+
+    @OnPageChange
+    public void onPageChange() {
+        Log.d("SessionDataPageFragment", "change");
     }
 }

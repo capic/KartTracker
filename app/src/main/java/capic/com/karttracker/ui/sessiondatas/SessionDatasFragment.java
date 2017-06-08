@@ -51,7 +51,7 @@ public class SessionDatasFragment extends Fragment {
         return inst;
     }
 
-    private InternalLocationReceiver mInternalLocationReceiver;
+    private DatasLocationReceiver mInternalLocationReceiver;
 
     public SessionDatasFragment() {
         // Required empty public constructor
@@ -70,14 +70,10 @@ public class SessionDatasFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mInternalLocationReceiver = new InternalLocationReceiver(this);
-        mSessionGpsData = (SessionGpsData) getArguments().getSerializable("val");
-        /*
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mSessionGpsData = (SessionGpsData) getArguments().getSerializable("val");
+            mInternalLocationReceiver = new DatasLocationReceiver(this);
         }
-        */
     }
 
     @Override
@@ -87,9 +83,11 @@ public class SessionDatasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_session_datas, container, false);
         ButterKnife.bind(this, view);
 
-        textLongitudeValue.setText(String.valueOf(mSessionGpsData.getMLongitude()));
-        textLatitudeValue.setText(String.valueOf(mSessionGpsData.getMLatitude()));
-        textAltitudeValue.setText(String.valueOf(mSessionGpsData.getMAltitude()));
+        if (mSessionGpsData != null) {
+            textLongitudeValue.setText(String.valueOf(mSessionGpsData.getMLongitude()));
+            textLatitudeValue.setText(String.valueOf(mSessionGpsData.getMLatitude()));
+            textAltitudeValue.setText(String.valueOf(mSessionGpsData.getMAltitude()));
+        }
 
         return view;
     }
@@ -137,25 +135,6 @@ public class SessionDatasFragment extends Fragment {
             textLatitudeValue.setText(String.valueOf(location.getLatitude()));
             textLongitudeValue.setText(String.valueOf(location.getLongitude()));
             textAltitudeValue.setText(String.valueOf(location.getAltitude()));
-        }
-    }
-
-    private static class InternalLocationReceiver extends BroadcastReceiver {
-        private SessionDatasFragment mActivity;
-
-        public InternalLocationReceiver(SessionDatasFragment mActivity) {
-            this.mActivity = mActivity;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final SessionDatasFragment activity = mActivity;
-            if (activity != null) {
-                LocationResult result = intent.getParcelableExtra("result");
-                Log.i("SessionDatasFragment", "Receive " + result.getLastLocation().getLatitude() + " " + result.getLastLocation().getLongitude());
-
-                mActivity.setValues(result.getLastLocation());
-            }
         }
     }
 }

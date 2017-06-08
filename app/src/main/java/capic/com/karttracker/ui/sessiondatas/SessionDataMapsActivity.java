@@ -85,6 +85,10 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
             } else {
                 if (track != null) {
                     mPresenter.startNewSession(this, track.getMId());
+                    SessionDatasFragment sessionDatasFragment = SessionDatasFragment.newInstance();
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.session_datas_frame, sessionDatasFragment);
+                    transaction.commit();
 //                    sessionDatasPagerFragment.initForTracking();
                 }
             }
