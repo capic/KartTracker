@@ -286,16 +286,4 @@ public class TracksActivity extends AppCompatActivity
         ((TrackItemAdapter)mTracksListView.getAdapter()).getFilter().filter(newText);
         return false;
     }
-
-    @Override
-    public void startGpsService() {
-        ServiceUtils.startGpsService(this);
-//        startService(new Intent(this, GpsService.class).putExtra("request", true));
-    }
-
-    @Override
-    public void stopGpsService() {
-        ServiceUtils.stopGpsService(this);
-//        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
-    }
 }

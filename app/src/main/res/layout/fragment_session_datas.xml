@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textLongitude"
+                android:id="@+id/text_longitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -26,7 +26,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textLongitudeValue"
+                android:id="@+id/text_longitude_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,7 +41,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textLatitude"
+                android:id="@+id/text_latitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textLatitudeValue"
+                android:id="@+id/text_latitude_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,7 +66,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textAltitude"
+                android:id="@+id/text_altitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Altitude"
@@ -75,7 +75,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textAltitudeValue"
+                android:id="@+id/text_altitude_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="--"

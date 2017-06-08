@@ -28,16 +28,15 @@ import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.utils.ButterKnifeUtils;
 import capic.com.karttracker.utils.ServiceUtils;
 
 public class SessionDataMapsActivity extends FragmentActivity implements SessionDatasContract.MapsView, OnMapReadyCallback, SessionDatasFragment.OnFragmentInteractionListener {
-    private Track mTrack;
-    private Session mSession;
-
     @Inject
     SessionDatasContract.MapsPresenter mPresenter;
+
 
     @BindView(R.id.button_stop)
     Button buttonStopSessionData;
@@ -62,34 +61,41 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
+        mPresenter.setView(this);
+
+        Track track = null;
+        Session session = null;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.containsKey("trackId")) {
-                mTrack = mPresenter.loadTrack(extras.getLong("trackId"));
+                track = mPresenter.loadTrack(extras.getLong("trackId"));
             }
 
             if (extras.containsKey("sessionId")) {
-                mSession = mPresenter.loadSession(extras.getLong("sessionId"));
+                session = mPresenter.loadSession(extras.getLong("sessionId"));
+                mPresenter.loadSessionGpsDatas(session.getMId());
+
             } else {
-                if (mTrack != null) {
-                    mPresenter.startNewSession(this, mTrack.getMId());
+                if (track != null) {
+                    mPresenter.startNewSession(this, track.getMId());
                 }
             }
         }
 
         ButterKnife.bind(this);
 
-        setUp();
+
+        setUp(track, session);
 
         mPresenter.setView(this);
     }
 
-    protected void setUp() {
+    protected void setUp(Track track, Session session) {
 //        setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String trackName =  (mTrack != null) ? mTrack.getMName() : "";
-        String sessionName = (mSession != null) ? getResources().getString(R.string.track_session_name_text, mSession.getMIdOfDay()) : "";
+        String trackName =  (track != null) ? track.getMName() : "";
+        String sessionName = (session != null) ? getResources().getString(R.string.track_session_name_text, session.getMIdOfDay()) : "";
 
         setTitle(getResources().getString(R.string.title_activity_session_data_maps, trackName, sessionName));
 
@@ -114,6 +120,12 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mPresenter.onStopSessionDatasClicked();
     }
 
     @Override

@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 import capic.com.karttracker.services.datas.models.DaoMaster;
 import capic.com.karttracker.services.datas.models.DaoSession;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepositoryDb;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepositoryDb;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
@@ -42,5 +44,11 @@ public class DataModule {
     @Provides
     public TrackSessionsRepository provideTrackSessionsRepository(DaoSession daoSession) {
         return new TrackSessionsRepositoryDb(daoSession);
+    }
+
+    @Singleton
+    @Provides
+    public SessionGpsDatasRepository provideSessionGpsDatasRepository(DaoSession daoSession) {
+        return new SessionGpsDatasRepositoryDb(daoSession);
     }
 }

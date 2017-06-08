@@ -18,8 +18,6 @@ public interface TrackSessionsContract {
         void showTrackSession(List<Session> trackSessions);
         void openSessionDatasActivity();
         void openSessionDatasActivity(Long sessionId);
-        void startGpsService();
-        void stopGpsService();
     }
 
     public interface Presenter {
