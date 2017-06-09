@@ -68,9 +68,6 @@ public class TracksActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-//    @BindView(R.id.search_view)
-//    SearchView searchView;
-
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -127,13 +124,6 @@ public class TracksActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-/*
-        if (requestCode == REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                startGpsService();
-            }
-        }
- */
     }
 
     @OnItemClick(R.id.tracksListView)
@@ -254,7 +244,6 @@ public class TracksActivity extends AppCompatActivity
                 .setNegativeButton(R.string.create_track_dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("TracksActivity.onCreate", "dedans1");
                     }
                 })
                 .show();

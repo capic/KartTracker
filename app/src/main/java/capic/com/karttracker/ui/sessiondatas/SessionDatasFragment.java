@@ -57,6 +57,10 @@ public class SessionDatasFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public SessionGpsData getmSessionGpsData() {
+        return mSessionGpsData;
+    }
+
 
     // TODO: Rename and change types and number of parameters
     public static SessionDatasFragment newInstance() {

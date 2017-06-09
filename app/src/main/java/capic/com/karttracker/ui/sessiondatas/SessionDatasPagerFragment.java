@@ -1,9 +1,12 @@
 package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnPageChange;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
+import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 
 /**
@@ -99,7 +103,14 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     }
 
     @OnPageChange
-    public void onPageChange() {
-        Log.d("SessionDataPageFragment", "change");
+    public void onPageChange(int position) {
+        Log.d("SessionDataPageFragment", "change => " + position);
+        SessionGpsData sessionGpsData = ((SessionDatasFragment)mSessionDatasPagerAdapter.getItem(position)).getmSessionGpsData();
+        Location location = new Location("");
+        location.setLongitude(sessionGpsData.getMLongitude());
+        location.setLatitude(sessionGpsData.getMLatitude());
+        location.setAltitude(sessionGpsData.getMAltitude());
+
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", location));
     }
 }
