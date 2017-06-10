@@ -33,6 +33,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
+import capic.com.karttracker.app.modules.TracksActivityModule;
 import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
@@ -43,6 +44,9 @@ public class TracksActivity extends AppCompatActivity
 
     @Inject
     TracksContract.Presenter mPresenter;
+
+    @Inject
+    ArrayAdapter<Track> adapter;
 
     @BindView(R.id.tracksListView)
     ListView mTracksListView;
@@ -69,7 +73,10 @@ public class TracksActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracks);
 
-        ((KartTracker)getApplication()).getAppComponent().inject(this);
+        ((KartTracker)getApplication()).getAppComponent().plus(new TracksActivityModule(this)).inject(this);
+//        ((KartTracker)getApplication()).getAppComponent().newTracksActivitySubComponent(new TracksActivityModule(this)).inject(this);
+//        ((KartTracker)getApplication()).getAppComponent().inject(this);
+
 
         ButterKnife.bind(this);
 
@@ -192,7 +199,7 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public void showTracks(List<Track> tracksList) {
-        ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
+//        ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
         ((TrackItemAdapter)adapter).setPresenter(mPresenter);
         mTracksListView.setAdapter(adapter);
 //        mTracksListView.getAdapter().notifyDataSetChanged();

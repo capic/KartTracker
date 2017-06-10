@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import capic.com.karttracker.app.modules.AppModule;
 import capic.com.karttracker.app.modules.DataModule;
 import capic.com.karttracker.app.modules.PresenterModule;
+import capic.com.karttracker.app.modules.TracksActivityModule;
 import capic.com.karttracker.ui.tracks.TracksActivity;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
@@ -17,7 +18,11 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, DataModule.class, PresenterModule.class})
 public interface AppComponent {
-    void inject(TracksActivity activity);
+//    void inject(TracksActivity activity);
     void inject(TrackSessionsActivity activity);
     void inject(TrackSessionDatesActivity activity);
+
+    TracksActivitySubComponent plus(TracksActivityModule tracksActivityModule);
+//    TracksActivitySubComponent newTracksActivitySubComponent(TracksActivityModule activityModule);
+
 }
