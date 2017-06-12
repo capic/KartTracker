@@ -9,6 +9,7 @@ import capic.com.karttracker.services.gps.LocationListener;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasFragment;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasPagerFragment;
+import capic.com.karttracker.ui.tracks.TrackItemAdapter;
 import capic.com.karttracker.ui.tracks.TracksActivity;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
@@ -22,6 +23,7 @@ import dagger.Component;
 @Component(modules = {AppModule.class, DataModule.class, PresenterModule.class})
 public interface AppComponent {
     void inject(TracksActivity activity);
+    void inject(TrackItemAdapter adapter);
     void inject(TrackSessionsActivity activity);
     void inject(TrackSessionDatesActivity activity);
     void inject(SessionDataMapsActivity activity);

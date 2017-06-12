@@ -16,7 +16,6 @@ public interface SessionDatasContract {
     public interface MapsView {
         void showLoading();
         void hideLoading();
-        void stopGpsService();
     }
 
     public interface DatasView {
@@ -27,7 +26,7 @@ public interface SessionDatasContract {
 
     public interface MapsPresenter {
         void setView(SessionDatasContract.MapsView view);
-        void onStopSessionDatasClicked();
+        void onStopSessionDatasClicked(Context context);
         Track loadTrack(Long trackId);
         Session loadSession(Long sessionId);
         void startNewSession(Context context, Long trackId);

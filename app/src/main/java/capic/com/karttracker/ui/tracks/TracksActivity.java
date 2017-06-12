@@ -215,7 +215,7 @@ public class TracksActivity extends AppCompatActivity
     @Override
     public void showTracks(List<Track> tracksList) {
         ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
-        ((TrackItemAdapter)adapter).setPresenter(mPresenter);
+//        ((TrackItemAdapter)adapter).setPresenter(mPresenter);
         mTracksListView.setAdapter(adapter);
 //        mTracksListView.getAdapter().notifyDataSetChanged();
     }

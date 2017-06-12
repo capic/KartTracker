@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.LocationResult;
+
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -105,12 +108,15 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     @OnPageChange
     public void onPageChange(int position) {
         Log.d("SessionDataPageFragment", "change => " + position);
-        SessionGpsData sessionGpsData = ((SessionDatasFragment)mSessionDatasPagerAdapter.getItem(position)).getmSessionGpsData();
+
+        SessionGpsData sessionGpsData = mSessionDatasPagerAdapter.getSessionGpsData(position);
         Location location = new Location("");
         location.setLongitude(sessionGpsData.getMLongitude());
         location.setLatitude(sessionGpsData.getMLatitude());
         location.setAltitude(sessionGpsData.getMAltitude());
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", location));
+        LocationResult result = LocationResult.create(Arrays.asList(location));
+
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", result));
     }
 }

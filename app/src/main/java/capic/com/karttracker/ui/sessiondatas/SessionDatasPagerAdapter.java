@@ -27,6 +27,10 @@ public class SessionDatasPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return SessionDatasFragment.init(mList.get(position));
+        return SessionDatasFragment.init(getSessionGpsData(position));
+    }
+
+    public SessionGpsData getSessionGpsData(int position) {
+        return  mList.get(position);
     }
 }

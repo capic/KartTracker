@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Track;
 
@@ -30,6 +31,7 @@ import capic.com.karttracker.services.datas.models.Track;
  */
 
 public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable {
+    @Inject
     TracksContract.Presenter mPresenter;
 
     private List<Track> mTracksList;
@@ -38,13 +40,16 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
 
     public TrackItemAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Track> objects) {
         super(context, resource, objects);
+
+        ((KartTracker)context.getApplicationContext()).getAppComponent().inject(this);
+
         this.mTracksList = objects;
         this.mTracksFilteredList = objects;
     }
 
-    public void setPresenter(TracksContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
+//    public void setPresenter(TracksContract.Presenter presenter) {
+//        mPresenter = presenter;
+//    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

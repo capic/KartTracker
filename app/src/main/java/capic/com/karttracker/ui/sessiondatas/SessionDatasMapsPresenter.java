@@ -42,8 +42,8 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
     }
 
     @Override
-    public void onStopSessionDatasClicked() {
-        mView.stopGpsService();
+    public void onStopSessionDatasClicked(Context context) {
+        ServiceUtils.stopGpsService(context);
     }
 
     @Override

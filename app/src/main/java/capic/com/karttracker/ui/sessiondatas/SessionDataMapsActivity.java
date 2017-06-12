@@ -2,19 +2,25 @@ package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.joda.time.LocalDate;
 
@@ -38,9 +44,10 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
     @Inject
     SessionDatasContract.MapsPresenter mPresenter;
 
-
     @BindView(R.id.button_stop)
     Button buttonStopSessionData;
+
+    private MapsLocationReceiver mInternalLocationReceiver;
 
 //    @BindView(R.id.toolbar_session_data_maps)
 //    Toolbar mToolbar;
@@ -94,6 +101,8 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
             }
         }
 
+        mInternalLocationReceiver = new MapsLocationReceiver(this);
+
         ButterKnife.bind(this);
 
 
@@ -121,7 +130,8 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
     @OnClick(R.id.button_stop)
     public void onStopSessionDatasClicked() {
-        mPresenter.onStopSessionDatasClicked();
+        mPresenter.onStopSessionDatasClicked(this);
+        finish();
     }
 
     @Override
@@ -137,17 +147,34 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mPresenter.onStopSessionDatasClicked();
-    }
-
-    @Override
-    public void stopGpsService() {
-        stopService(new Intent(this, GpsService.class).putExtra("remove", true));
-        finish();
+        mPresenter.onStopSessionDatasClicked(this);
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mInternalLocationReceiver, new IntentFilter("googleLocation"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mInternalLocationReceiver);
+    }
+
+    public void markStartingLocationOnMap(Location location){
+        if (mMap != null && location != null) {
+            mMap.clear();
+
+            LatLng locationMarker = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(locationMarker).title("Current location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(locationMarker));
+        }
 
     }
 }
