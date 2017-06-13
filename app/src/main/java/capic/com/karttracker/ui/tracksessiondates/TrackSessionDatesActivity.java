@@ -83,7 +83,7 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
 
     @OnClick(R.id.fab)
     public void onStartNewSessionClicked() {
-        mPresenter.onStartNewSessionClicked(mTrackId);
+        mPresenter.onStartNewSessionClicked();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     }
 
     @Override
-    public void openSessionDatasActivity(Long sessionId) {
+    public void openSessionDatasActivity() {
         Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionDatesActivity.this);
         intent.putExtra("trackId", mTrackId);
         startActivity(intent);

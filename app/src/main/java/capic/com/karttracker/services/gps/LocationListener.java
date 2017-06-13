@@ -47,7 +47,10 @@ public class LocationListener implements com.google.android.gms.location.Locatio
         sessionGpsData.setMLongitude(location.getLongitude());
         sessionGpsData.setMAltitude(location.getAltitude());
 
-        if (previousLocation != null && previousTimestamp != null) {
+        if (previousLocation != null && previousTimestamp != null &&
+                previousLocation.getLatitude() != location.getLatitude() &&
+                previousLocation.getLongitude() != location.getLongitude()) {
+
             Log.d("onLocationChanged", "Datas to calculate speed: ");
             Log.d("onLocationChanged", "previous latitude: " + previousLocation.getLatitude() + ", previous longitude: " + previousLocation.getLongitude() + ", previous timestamp: " + previousTimestamp);
             Log.d("onLocationChanged", "current latitude: " + location.getLatitude() + ", current longitude: " + location.getLongitude() + ", current timestamp: " + timestamp);
@@ -55,9 +58,9 @@ public class LocationListener implements com.google.android.gms.location.Locatio
             float[] results = new float[1];
             Location.distanceBetween(previousLocation.getLatitude(), previousLocation.getLongitude(), location.getLatitude(), location.getLongitude(), results);
             Float distanceInMeter = results[0];
-            Long timeInSecond = (timestamp - previousTimestamp) / 1000;
+            Float timeInSecond = (timestamp - previousTimestamp) / 1000f;
             Float speedInMeterPerSecond = distanceInMeter / timeInSecond;
-            Float speedInKilometerPerHour = (speedInMeterPerSecond * 3600) / 1000;
+            Float speedInKilometerPerHour = (speedInMeterPerSecond * 3600) / 1000f;
 
             Log.d("onLocationChanged", "Calculate speed with distance in meter: " + distanceInMeter + ", time in second: " + timeInSecond + " => speed: " + speedInMeterPerSecond + " m/s");
             Log.d("onLocationChanged", "speed in kilometer per hour: " + speedInKilometerPerHour + " km/h");

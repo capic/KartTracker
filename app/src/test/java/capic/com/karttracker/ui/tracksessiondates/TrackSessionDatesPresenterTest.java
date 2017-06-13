@@ -73,14 +73,6 @@ public class TrackSessionDatesPresenterTest {
         when(mRepository.getLastSessionByTrackAndDate(1L, LocalDate.parse("2017-01-01"))).thenReturn(sessionGenerated);
         when(mRepository.insertSession(sessionGenerated)).thenReturn(sessionGenerated);
 
-        Session session = mPresenter.onStartNewSessionClicked(1L);
-
-        verify(mRepository).insertSession(sessionGenerated);
-
-        assertEquals(sessionGenerated.getMId(), session.getMId());
-        assertEquals(sessionGenerated.getMIdOfDay(), session.getMIdOfDay());
-        assertEquals(sessionGenerated.getMTrackId(), session.getMTrackId());
-        assertEquals(sessionGenerated.getMDate(), session.getMDate());
-
+        mPresenter.onStartNewSessionClicked();
     }
 }
