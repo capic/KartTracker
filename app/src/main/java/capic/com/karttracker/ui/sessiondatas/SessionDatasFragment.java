@@ -1,26 +1,23 @@
 package capic.com.karttracker.ui.sessiondatas;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.location.LocationResult;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
+import capic.com.karttracker.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +28,6 @@ import capic.com.karttracker.services.datas.models.SessionGpsData;
  * create an instance of this fragment.
  */
 public class SessionDatasFragment extends Fragment {
-    private SessionGpsData mSessionGpsData;
-
     @BindView(R.id.text_longitude_value)
     TextView textLongitudeValue;
 
@@ -41,6 +36,9 @@ public class SessionDatasFragment extends Fragment {
 
     @BindView(R.id.text_altitude_value)
     TextView textAltitudeValue;
+
+    @BindView(R.id.text_speed_value)
+    TextView textSpeedValue;
 
     static  SessionDatasFragment init(SessionGpsData val) {
         SessionDatasFragment inst = new SessionDatasFragment();
@@ -57,11 +55,6 @@ public class SessionDatasFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public SessionGpsData getmSessionGpsData() {
-        return mSessionGpsData;
-    }
-
-
     // TODO: Rename and change types and number of parameters
     public static SessionDatasFragment newInstance() {
         SessionDatasFragment fragment = new SessionDatasFragment();
@@ -73,11 +66,6 @@ public class SessionDatasFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mSessionGpsData = (SessionGpsData) getArguments().getSerializable("val");
-            mInternalLocationReceiver = new DatasLocationReceiver(this);
-        }
     }
 
     @Override
@@ -87,10 +75,9 @@ public class SessionDatasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_session_datas, container, false);
         ButterKnife.bind(this, view);
 
-        if (mSessionGpsData != null) {
-            textLongitudeValue.setText(String.valueOf(mSessionGpsData.getMLongitude()));
-            textLatitudeValue.setText(String.valueOf(mSessionGpsData.getMLatitude()));
-            textAltitudeValue.setText(String.valueOf(mSessionGpsData.getMAltitude()));
+        if (getArguments() != null) {
+            setValues((SessionGpsData) getArguments().getSerializable("val"));
+            mInternalLocationReceiver = new DatasLocationReceiver(this);
         }
 
         return view;
@@ -134,11 +121,12 @@ public class SessionDatasFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    protected void setValues(Location location) {
-        if (location != null) {
-            textLatitudeValue.setText(String.valueOf(location.getLatitude()));
-            textLongitudeValue.setText(String.valueOf(location.getLongitude()));
-            textAltitudeValue.setText(String.valueOf(location.getAltitude()));
+    protected void setValues(SessionGpsData sessionGpsData) {
+        if (sessionGpsData != null) {
+            textLatitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMLatitude()));
+            textLongitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMLongitude()));
+            textAltitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMAltitude()));
+            textSpeedValue.setText(String.format(Locale.getDefault(), Constants.SPEED_FORMAT, sessionGpsData.getMSpeed()));
         }
     }
 }

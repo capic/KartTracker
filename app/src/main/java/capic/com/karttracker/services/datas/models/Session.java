@@ -36,6 +36,17 @@ public class Session {
     @ToOne(joinProperty = "mTrackId")
     private Track track;
 
+    public String toString() {
+        String s = "Session: \r\n";
+
+        s += "  id: " + mId + "\r\n";
+        s += "  idOfDay: " + mIdOfDay + "\r\n";
+        s += "  date: " + mDate + "\r\n";
+        s += "  trackId: " + mTrackId + "\r\n";
+
+        return s;
+    }
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;

@@ -18,6 +18,15 @@ public class Track {
     @Property(nameInDb = "name")
     private String mName;
 
+    public String toString() {
+        String s = "Track: \r\n";
+
+        s += "  id: " + mId + "\r\n";
+        s += "  name: " + mName + "\r\n";
+
+        return s;
+    }
+
     @Generated(hash = 1803596928)
     public Track(Long mId, String mName) {
         this.mId = mId;

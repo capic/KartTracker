@@ -1,8 +1,11 @@
 package capic.com.karttracker.utils;
 
+import android.location.Location;
+
 import org.joda.time.LocalDate;
 
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 
 /**
@@ -23,4 +26,5 @@ public class SessionUtils {
 
         return session;
     }
+
 }

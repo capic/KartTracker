@@ -38,7 +38,7 @@ public class TracksRepositoryDb implements TracksRepository {
 
     @Override
     public Track insertTrack(Track trackData) {
-        Log.d("insertTrack", "Insert Track => " +trackData.getMName());
+        Log.d("insertTrack", "Insertion of " + trackData);
         Long id = this.mDaoSession.getTrackDao().insert(trackData);
         return getTrack(id);
     }

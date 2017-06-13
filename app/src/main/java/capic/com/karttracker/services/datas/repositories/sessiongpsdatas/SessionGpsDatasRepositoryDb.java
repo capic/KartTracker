@@ -1,5 +1,7 @@
 package capic.com.karttracker.services.datas.repositories.sessiongpsdatas;
 
+import android.util.Log;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public class SessionGpsDatasRepositoryDb implements SessionGpsDatasRepository {
 
     @Override
     public SessionGpsData insertSessionGpsData(SessionGpsData sessionGpsData) {
+        Log.d("insertSessionGpsData", "Insertion of " + sessionGpsData);
+
         Long id = this.mDaoSession.insert(sessionGpsData);
         return getSessionGpsData(id);
     }

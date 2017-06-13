@@ -21,6 +21,10 @@
     <string name="stop_button_session_datas">Stop</string>
     <string name="track_session_name_text">Session %1$d</string>
     <string name="title_activity_session_data_maps">%1$s - %2$s</string>
+    <string name="text_gps_datas_longitude">Longitude</string>
+    <string name="text_gps_datas_latitude">Latitude</string>
+    <string name="text_gps_data_altitude">Altitude</string>
+    <string name="text_gps_datas_speed">Vitesse</string>
 
 
 </resources>

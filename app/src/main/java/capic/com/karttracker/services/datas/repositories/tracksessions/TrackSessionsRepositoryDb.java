@@ -1,5 +1,7 @@
 package capic.com.karttracker.services.datas.repositories.tracksessions;
 
+import android.util.Log;
+
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
@@ -48,6 +50,8 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
 
     @Override
     public Session insertSession(Session session) {
+        Log.d("insertTrack", "Insertion of " + session);
+
         Long id = this.mDaoSession.insert(session);
         return getSession(id);
     }
