@@ -13,4 +13,5 @@ public interface TracksRepository {
     List<Track> getAllTracks();
     Track getTrack(Long id);
     Track insertTrack(final Track trackData);
+    void deleteTrack(Track track);
 }

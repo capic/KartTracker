@@ -25,8 +25,8 @@ import dagger.Provides;
 public class PresenterModule {
     @Singleton
     @Provides
-    TracksContract.Presenter provideTracksPresenter(TracksRepository repository) {
-        return new TracksPresenter(repository);
+    TracksContract.Presenter provideTracksPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
+        return new TracksPresenter(tracksRepository, trackSessionsRepository, sessionGpsDatasRepository);
     }
 
     @Singleton

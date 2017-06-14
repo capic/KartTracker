@@ -25,6 +25,12 @@
     <string name="text_gps_datas_latitude">Latitude</string>
     <string name="text_gps_data_altitude">Altitude</string>
     <string name="text_gps_datas_speed">Vitesse</string>
+    <string name="context_menu_track_header">Actions</string>
+    <string name="context_menu_track_delete">Supprimer</string>
+    <string name="delete_track_warning_dialog_title">ATTENTION</string>
+    <string name="delete_track_warning_dialog_text">Attention le circuit a des sessions !!!</string>
+    <string name="delete_track_warning_dialog_ok">OK</string>
+    <string name="delete_track_warning_dialog_cancel">ANNULER</string>
 
 
 </resources>

@@ -22,6 +22,7 @@ public interface TracksContract {
         void showCreateTrack();
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
+        void showWarningDialogBoxTrackHasSessions(Track track);
     }
 
     public interface Presenter {
@@ -31,5 +32,7 @@ public interface TracksContract {
         Track createTrack(Track track);
         void onTrackItemClicked(Track track);
         void onTrackPlayItemClicked(Track track);
+        void onDeleteTrackClicked(Track track);
+        void onDeleteTrackWarningOkClicked(Track track);
     }
 }

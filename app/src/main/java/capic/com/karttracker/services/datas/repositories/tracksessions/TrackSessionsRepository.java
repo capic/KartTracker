@@ -19,4 +19,7 @@ public interface TrackSessionsRepository {
     Session getSession(Long id);
     Session getLastSessionByTrackAndDate(Long trackId, LocalDate sessionDate);
     List<LocalDate> getSessionDatesByTrack(Long trackId);
+    Long getNumberOfSessionForTrack(Long trackId);
+    void deleteSession(Session session);
+    List<Session> getSessionsByTrack(Long trackId);
 }

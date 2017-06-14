@@ -2,13 +2,9 @@ package capic.com.karttracker.services.datas.repositories.tracksessions;
 
 import android.util.Log;
 
-import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
 import org.joda.time.LocalDate;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +27,7 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
         this.mDaoSession = daoSession;
     }
 
+
     protected QueryBuilder<Session> getSessionsByTrackAndDateQuery(Long trackId, LocalDate sessionDate) {
         Session.DateConverter converter = new Session.DateConverter();
 
@@ -39,6 +36,14 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
 
         return qb;
     }
+
+    protected QueryBuilder<Session> getSessionsByTrackQuery(Long trackId) {
+        QueryBuilder<Session> qb = this.mDaoSession.getSessionDao().queryBuilder();
+        qb.where(SessionDao.Properties.MTrackId.eq(trackId));
+
+        return qb;
+    }
+
 
     @Override
     public List<Session> getSessionsByTrackAndDate(Long trackId, LocalDate sessionDate) {
@@ -79,10 +84,7 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
 
     @Override
     public List<LocalDate> getSessionDatesByTrack(Long trackId) {
-        QueryBuilder<Session> qb = this.mDaoSession.getSessionDao().queryBuilder();
-        qb.where(SessionDao.Properties.MTrackId.eq(trackId));
-        
-        List<Session> list = qb.list();
+        List<Session> list = getSessionsByTrackQuery(trackId).list();
 
         List<LocalDate> dates = new LinkedList<>();
         for (Session session : list) {
@@ -92,5 +94,22 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
         }
         
         return dates;
+    }
+
+    @Override
+    public Long getNumberOfSessionForTrack(Long trackId) {
+        return getSessionsByTrackQuery(trackId).buildCount().count();
+    }
+
+    @Override
+    public void deleteSession(Session session) {
+        Log.d("deleteSession", "Deletion of " + session);
+
+        this.mDaoSession.delete(session);
+    }
+
+    @Override
+    public List<Session> getSessionsByTrack(Long trackId) {
+        return getSessionsByTrackQuery(trackId).list();
     }
 }

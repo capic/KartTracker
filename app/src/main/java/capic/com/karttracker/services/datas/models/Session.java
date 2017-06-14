@@ -78,6 +78,8 @@ public class Session {
         s += "  id: " + mId + "\r\n";
         s += "  idOfDay: " + mIdOfDay + "\r\n";
         s += "  date: " + mDate + "\r\n";
+        s += "  startTime: " + mStartTime + "\r\n";
+        s += "  endTime: " + mEndTime + "\r\n";
         s += "  trackId: " + mTrackId + "\r\n";
 
         return s;

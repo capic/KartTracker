@@ -19,8 +19,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -49,6 +52,8 @@ public class TracksActivity extends AppCompatActivity
         implements TracksContract.View, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener  {
 
     private static final int REQUEST_CODE = 100;
+
+    private static final int CONTEXT_MENU_ITEM_DELETE = 0;
 
     @Inject
     TracksContract.Presenter mPresenter;
@@ -110,6 +115,7 @@ public class TracksActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        registerForContextMenu(mTracksListView);
     }
 
     protected boolean runtimePermissions() {
@@ -197,6 +203,28 @@ public class TracksActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+//        menu.setHeaderTitle(R.string.context_menu_track_header);
+        menu.add(0,CONTEXT_MENU_ITEM_DELETE, 0, R.string.context_menu_track_delete);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch(item.getItemId()) {
+            case CONTEXT_MENU_ITEM_DELETE:
+                mPresenter.onDeleteTrackClicked((Track)mTracksListView.getAdapter().getItem(info.position));
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
     @OnClick(R.id.fab)
     public void onCreateTrackClicked() {
         mPresenter.onCreateTrackClicked();
@@ -263,6 +291,25 @@ public class TracksActivity extends AppCompatActivity
         intent.putExtra("trackId", trackId);
         startActivity(intent);
 //        finish();
+    }
+
+    @Override
+    public void showWarningDialogBoxTrackHasSessions(final Track track) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_track_warning_dialog_title)
+                .setView(R.layout.delete_track_warning_dialog)
+                .setPositiveButton(R.string.delete_track_warning_dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.onDeleteTrackWarningOkClicked(track);
+                    }
+                })
+                .setNegativeButton(R.string.delete_track_warning_dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 
     @Override

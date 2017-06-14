@@ -30,5 +30,4 @@ public class SessionUtils {
 
         return session;
     }
-
 }

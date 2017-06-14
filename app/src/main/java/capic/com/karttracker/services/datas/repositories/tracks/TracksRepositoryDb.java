@@ -42,4 +42,9 @@ public class TracksRepositoryDb implements TracksRepository {
         Long id = this.mDaoSession.getTrackDao().insert(trackData);
         return getTrack(id);
     }
+
+    @Override
+    public void deleteTrack(Track track) {
+        this.mDaoSession.delete(track);
+    }
 }

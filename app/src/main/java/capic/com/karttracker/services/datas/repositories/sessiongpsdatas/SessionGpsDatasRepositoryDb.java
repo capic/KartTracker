@@ -45,4 +45,18 @@ public class SessionGpsDatasRepositoryDb implements SessionGpsDatasRepository {
     public SessionGpsData getSessionGpsData(Long id) {
         return this.mDaoSession.getSessionGpsDataDao().load(id);
     }
+
+    @Override
+    public void deleteSessionGpsData(SessionGpsData sessionGpsData) {
+        Log.d("deleteSessionGpsData", "Delete sessionGpsData: " + sessionGpsData);
+
+        this.mDaoSession.delete(sessionGpsData);
+    }
+
+    @Override
+    public void deleteAllSessionGpsDataForSession(Long sessionId) {
+        for (SessionGpsData sessionGpsData : getSessionGpsDatasBySession(sessionId)) {
+            deleteSessionGpsData(sessionGpsData);
+        }
+    }
 }
