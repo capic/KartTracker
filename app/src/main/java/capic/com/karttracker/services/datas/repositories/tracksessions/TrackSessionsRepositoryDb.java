@@ -57,6 +57,14 @@ public class TrackSessionsRepositoryDb implements TrackSessionsRepository {
     }
 
     @Override
+    public Session updateSession(Session session) {
+        Log.d("updateSession", "Update of " + session);
+
+        this.mDaoSession.update(session);
+        return  getSession(session.getMId());
+    }
+
+    @Override
     public Session getSession(Long id) {
         return this.mDaoSession.getSessionDao().load(id);
     }

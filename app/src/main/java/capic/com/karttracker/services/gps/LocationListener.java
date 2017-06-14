@@ -27,6 +27,7 @@ public class LocationListener implements com.google.android.gms.location.Locatio
 
     @Inject
     SessionGpsDatasRepository repository;
+    private String result;
 
     public LocationListener(Context context) {
         mContext = context;
@@ -48,8 +49,8 @@ public class LocationListener implements com.google.android.gms.location.Locatio
         sessionGpsData.setMAltitude(location.getAltitude());
 
         if (previousLocation != null && previousTimestamp != null &&
-                previousLocation.getLatitude() != location.getLatitude() &&
-                previousLocation.getLongitude() != location.getLongitude()) {
+                (previousLocation.getLatitude() != location.getLatitude() ||
+                previousLocation.getLongitude() != location.getLongitude())) {
 
             Log.d("onLocationChanged", "Datas to calculate speed: ");
             Log.d("onLocationChanged", "previous latitude: " + previousLocation.getLatitude() + ", previous longitude: " + previousLocation.getLongitude() + ", previous timestamp: " + previousTimestamp);
@@ -67,6 +68,7 @@ public class LocationListener implements com.google.android.gms.location.Locatio
 
             sessionGpsData.setMSpeed(speedInKilometerPerHour);
         } else {
+            Log.d("onLocationChanged", "No speed calculation");
             sessionGpsData.setMSpeed(0f);
         }
 

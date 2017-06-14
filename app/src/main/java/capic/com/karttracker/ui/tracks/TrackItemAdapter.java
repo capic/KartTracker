@@ -53,7 +53,7 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("TrackItemAdapter.getView", "position: " + position + " | taille: " + mTracksList.size());
+        Log.d("getView", "position: " + position + " | taille: " + mTracksList.size());
 
         ViewHolder holder;
 
@@ -69,7 +69,7 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
         holder.trackNameText.setText(track.getMName());
         holder.track = track;
 
-        Log.d("TrackItemAdapter.getView", "trackData: " + track.toString());
+        Log.d("getView", "trackData: " + track.toString());
 
         return convertView;
     }

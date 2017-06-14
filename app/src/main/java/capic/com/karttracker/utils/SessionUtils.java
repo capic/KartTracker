@@ -1,11 +1,14 @@
 package capic.com.karttracker.utils;
 
-import android.location.Location;
-
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+
+import java.util.Calendar;
 
 import capic.com.karttracker.services.datas.models.Session;
-import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 
 /**
@@ -22,6 +25,7 @@ public class SessionUtils {
         Session session = new Session();
         session.setMDate(today);
         session.setMIdOfDay(lastSessionId + 1);
+        session.setMStartTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
         session.setMTrackId(trackId);
 
         return session;

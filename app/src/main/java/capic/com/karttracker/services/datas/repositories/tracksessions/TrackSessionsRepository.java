@@ -15,6 +15,7 @@ import capic.com.karttracker.services.datas.models.Session;
 public interface TrackSessionsRepository {
     List<Session> getSessionsByTrackAndDate(Long trackId, LocalDate sessionDate);
     Session insertSession(Session session);
+    Session updateSession(Session session);
     Session getSession(Long id);
     Session getLastSessionByTrackAndDate(Long trackId, LocalDate sessionDate);
     List<LocalDate> getSessionDatesByTrack(Long trackId);

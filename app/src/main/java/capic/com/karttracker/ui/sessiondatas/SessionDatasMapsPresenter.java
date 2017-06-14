@@ -2,6 +2,11 @@ package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
+
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,6 +28,8 @@ import capic.com.karttracker.utils.SessionUtils;
 public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPresenter {
     SessionDatasContract.MapsView mView;
 
+    private Session mSession;
+
     private List<SessionGpsData> mSessionGpsDataList;
 
     TracksRepository mTracksRepository;
@@ -43,6 +50,8 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
     @Override
     public void onStopSessionDatasClicked(Context context) {
+        mSession.setMEndTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
+        mTrackSessionsRepository.updateSession(mSession);
         ServiceUtils.stopGpsService(context);
     }
 
@@ -58,9 +67,9 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
     @Override
     public void startNewSession(Context context, Long trackId) {
-        Session session = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
+        mSession = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
 
-        Session sessionInserted = mTrackSessionsRepository.insertSession(session);
+        Session sessionInserted = mTrackSessionsRepository.insertSession(mSession);
         ServiceUtils.startGpsService(context, sessionInserted.getMId());
     }
 }
