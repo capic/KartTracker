@@ -110,13 +110,7 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
         Log.d("SessionDataPageFragment", "change => " + position);
 
         SessionGpsData sessionGpsData = mSessionDatasPagerAdapter.getSessionGpsData(position);
-        Location location = new Location("");
-        location.setLongitude(sessionGpsData.getMLongitude());
-        location.setLatitude(sessionGpsData.getMLatitude());
-        location.setAltitude(sessionGpsData.getMAltitude());
 
-        LocationResult result = LocationResult.create(Arrays.asList(location));
-
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", result));
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", sessionGpsData));
     }
 }

@@ -17,6 +17,7 @@ import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
+import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.ui.tracks.TracksContract;
 import capic.com.karttracker.utils.ServiceUtils;
 import capic.com.karttracker.utils.SessionUtils;
@@ -50,9 +51,11 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
     @Override
     public void onStopSessionDatasClicked(Context context) {
-        mSession.setMEndTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
-        mTrackSessionsRepository.updateSession(mSession);
-        ServiceUtils.stopGpsService(context);
+        if (ServiceUtils.isMyServiceRunning(context, GpsService.class)) {
+            mSession.setMEndTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
+            mTrackSessionsRepository.updateSession(mSession);
+            ServiceUtils.stopGpsService(context);
+        }
     }
 
     @Override
