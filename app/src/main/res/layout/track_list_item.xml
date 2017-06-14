@@ -33,13 +33,4 @@
         android:paddingStart="?android:attr/listPreferredItemPaddingStart"
         android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
-    <ImageView
-        android:id="@+id/start_session_image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@android:drawable/ic_media_play"
-        tools:layout_alignParentEnd="true" />
-
 </RelativeLayout>

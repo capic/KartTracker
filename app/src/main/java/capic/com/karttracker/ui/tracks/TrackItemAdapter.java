@@ -110,16 +110,9 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
         @BindView(R.id.track_name_text)
         TextView trackNameText;
 
-        @BindView(R.id.start_session_image)
-        ImageView startSessionImage;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
-        }
-
-        @OnClick(R.id.start_session_image)
-        void onClick() {
-            mPresenter.onTrackPlayItemClicked(track);
         }
     }
 
