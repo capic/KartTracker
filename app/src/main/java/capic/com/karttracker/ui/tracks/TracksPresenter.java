@@ -50,8 +50,10 @@ public class TracksPresenter implements TracksContract.Presenter {
     }
 
     @Override
-    public Track createTrack(Track track) {
-        return mTracksRepository.insertTrack(track);
+    public void onCreateTrack(Track track) {
+        track = mTracksRepository.insertTrack(track);
+        mView.addTrack(track);
+        mView.openTrackSessionsActivity(track.getMId(), LocalDate.now());
     }
 
     @Override

@@ -73,6 +73,8 @@ public class TracksActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    private ArrayAdapter<Track> mArrayAdapter;
+
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -134,7 +136,7 @@ public class TracksActivity extends AppCompatActivity
 
     @OnItemClick(R.id.tracksListView)
     void onItemClick(int position) {
-        Track track = (Track)mTracksListView.getAdapter().getItem(position);
+        Track track = mArrayAdapter.getItem(position);
         mPresenter.onTrackItemClicked(track);
     }
 
@@ -242,10 +244,8 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public void showTracks(List<Track> tracksList) {
-        ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
-//        ((TrackItemAdapter)adapter).setPresenter(mPresenter);
-        mTracksListView.setAdapter(adapter);
-//        mTracksListView.getAdapter().notifyDataSetChanged();
+        mArrayAdapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
+        mTracksListView.setAdapter(mArrayAdapter);
     }
 
     @Override
@@ -263,9 +263,7 @@ public class TracksActivity extends AppCompatActivity
                         Track trackData = new Track();
                         trackData.setMName(editText.getText().toString());
 
-                        trackData = mPresenter.createTrack(trackData);
-
-                        openTrackSessionsActivity(trackData.getMId(), LocalDate.now());
+                        mPresenter.onCreateTrack(trackData);
 
                     }
                 })
@@ -276,6 +274,13 @@ public class TracksActivity extends AppCompatActivity
                 })
                 .show();
     }
+
+    @Override
+    public void addTrack(Track track) {
+        mArrayAdapter.add(track);
+        mArrayAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void openTrackSessionsActivity(Long trackId, LocalDate sessionDate) {
         Intent intent = TrackSessionsActivity.getStartIntent(TracksActivity.this);
@@ -319,7 +324,7 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ((TrackItemAdapter)mTracksListView.getAdapter()).getFilter().filter(newText);
+        mArrayAdapter.getFilter().filter(newText);
         return false;
     }
 }

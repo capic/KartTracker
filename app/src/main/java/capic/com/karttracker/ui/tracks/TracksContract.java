@@ -20,6 +20,7 @@ public interface TracksContract {
         void hideLoading();
         void showTracks(List<Track> tracksList);
         void showCreateTrack();
+        void addTrack(Track track);
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
         void showWarningDialogBoxTrackHasSessions(Track track);
@@ -29,7 +30,7 @@ public interface TracksContract {
         void setView(TracksContract.View view);
         void loadTracks();
         void onCreateTrackClicked();
-        Track createTrack(Track track);
+        void onCreateTrack(Track track);
         void onTrackItemClicked(Track track);
         void onTrackPlayItemClicked(Track track);
         void onDeleteTrackClicked(Track track);
