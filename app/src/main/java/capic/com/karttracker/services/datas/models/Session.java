@@ -10,6 +10,8 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.converter.PropertyConverter;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 
 import java.util.Date;
 
@@ -30,6 +32,14 @@ public class Session {
     @Convert(converter = DateConverter.class, columnType = Date.class)
     private LocalDate mDate;
 
+    @Property(nameInDb = "start_time")
+    @Convert(converter = TimeConverter.class, columnType = Long.class)
+    private LocalTime mStartTime;
+
+    @Property(nameInDb = "end_time")
+    @Convert(converter = TimeConverter.class, columnType = Long.class)
+    private LocalTime mEndTime;
+
     @Property(nameInDb = "track_id")
     private Long mTrackId;
 
@@ -44,16 +54,35 @@ public class Session {
     @Generated(hash = 1616835709)
     private transient SessionDao myDao;
 
-    @Generated(hash = 1854552827)
-    public Session(Long mId, Long mIdOfDay, LocalDate mDate, Long mTrackId) {
+    @Generated(hash = 370008854)
+    public Session(Long mId, Long mIdOfDay, LocalDate mDate, LocalTime mStartTime, LocalTime mEndTime,
+            Long mTrackId) {
         this.mId = mId;
         this.mIdOfDay = mIdOfDay;
         this.mDate = mDate;
+        this.mStartTime = mStartTime;
+        this.mEndTime = mEndTime;
         this.mTrackId = mTrackId;
     }
 
     @Generated(hash = 1317889643)
     public Session() {
+    }
+
+    @Generated(hash = 668638957)
+    private transient Long track__resolvedKey;
+
+    public String toString() {
+        String s = "Session: \r\n";
+
+        s += "  id: " + mId + "\r\n";
+        s += "  idOfDay: " + mIdOfDay + "\r\n";
+        s += "  date: " + mDate + "\r\n";
+        s += "  startTime: " + mStartTime + "\r\n";
+        s += "  endTime: " + mEndTime + "\r\n";
+        s += "  trackId: " + mTrackId + "\r\n";
+
+        return s;
     }
 
     public Long getMId() {
@@ -80,6 +109,22 @@ public class Session {
         this.mDate = mDate;
     }
 
+    public LocalTime getMStartTime() {
+        return this.mStartTime;
+    }
+
+    public void setMStartTime(LocalTime mStartTime) {
+        this.mStartTime = mStartTime;
+    }
+
+    public LocalTime getMEndTime() {
+        return this.mEndTime;
+    }
+
+    public void setMEndTime(LocalTime mEndTime) {
+        this.mEndTime = mEndTime;
+    }
+
     public Long getMTrackId() {
         return this.mTrackId;
     }
@@ -87,9 +132,6 @@ public class Session {
     public void setMTrackId(Long mTrackId) {
         this.mTrackId = mTrackId;
     }
-
-    @Generated(hash = 668638957)
-    private transient Long track__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1882085200)
@@ -173,6 +215,19 @@ public class Session {
         @Override
         public Date convertToDatabaseValue(LocalDate entityProperty) {
             return entityProperty == null ? null :  entityProperty.toDate();
+        }
+    }
+
+    public static class TimeConverter implements PropertyConverter<LocalTime, Long> {
+
+        @Override
+        public LocalTime convertToEntityProperty(Long databaseValue) {
+            return databaseValue == null ? null : new LocalTime(databaseValue);
+        }
+
+        @Override
+        public Long convertToDatabaseValue(LocalTime entityProperty) {
+            return entityProperty == null ? null : entityProperty.toDateTimeToday().toInstant().getMillis();
         }
     }
 }

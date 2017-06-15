@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 @Entity
-public class SessionGpsData implements Serializable{
+public class SessionGpsData implements Serializable {
     static final long serialVersionUID = 1L;
 
     @Id
@@ -31,13 +31,30 @@ public class SessionGpsData implements Serializable{
     private Double mAltitude;
 
     @Property(nameInDb = "speed")
-    private Double mSpeed;
+    private Float mSpeed;
+
+    @Property(nameInDb = "timestamp")
+    private Long mTimestamp;
 
     @Property(nameInDb = "session_id")
     private Long mSessionId;
 
     @ToOne(joinProperty = "mSessionId")
     private Session mSession;
+
+    public String toString() {
+        String s = "SessionGpsData: \r\n";
+
+        s += "  id: " + mId + "\r\n";
+        s += "  latitude: " + mLatitude + "\r\n";
+        s += "  longitude: " + mLongitude + "\r\n";
+        s += "  altitude: " + mAltitude + "\r\n";
+        s += "  speed: " + mSpeed + "\r\n";
+        s += "  timestamp: " + mTimestamp + "\r\n";
+        s += "  sessionId: " + mSessionId + "\r\n";
+
+        return s;
+    }
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -47,14 +64,15 @@ public class SessionGpsData implements Serializable{
     @Generated(hash = 1754399995)
     private transient SessionGpsDataDao myDao;
 
-    @Generated(hash = 1519288958)
+    @Generated(hash = 1866244192)
     public SessionGpsData(Long mId, Double mLatitude, Double mLongitude,
-            Double mAltitude, Double mSpeed, Long mSessionId) {
+            Double mAltitude, Float mSpeed, Long mTimestamp, Long mSessionId) {
         this.mId = mId;
         this.mLatitude = mLatitude;
         this.mLongitude = mLongitude;
         this.mAltitude = mAltitude;
         this.mSpeed = mSpeed;
+        this.mTimestamp = mTimestamp;
         this.mSessionId = mSessionId;
     }
 
@@ -94,12 +112,20 @@ public class SessionGpsData implements Serializable{
         this.mAltitude = mAltitude;
     }
 
-    public Double getMSpeed() {
+    public Float getMSpeed() {
         return this.mSpeed;
     }
 
-    public void setMSpeed(Double mSpeed) {
+    public void setMSpeed(Float mSpeed) {
         this.mSpeed = mSpeed;
+    }
+
+    public Long getMTimestamp() {
+        return this.mTimestamp;
+    }
+
+    public void setMTimestamp(Long mTimestamp) {
+        this.mTimestamp = mTimestamp;
     }
 
     public Long getMSessionId() {
@@ -185,4 +211,5 @@ public class SessionGpsData implements Serializable{
         myDao = daoSession != null ? daoSession.getSessionGpsDataDao() : null;
     }
 
+    
 }

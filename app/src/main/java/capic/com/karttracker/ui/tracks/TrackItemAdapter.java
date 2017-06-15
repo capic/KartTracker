@@ -53,7 +53,7 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("TrackItemAdapter.getView", "position: " + position + " | taille: " + mTracksList.size());
+        Log.d("getView", "position: " + position + " | taille: " + mTracksList.size());
 
         ViewHolder holder;
 
@@ -69,7 +69,7 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
         holder.trackNameText.setText(track.getMName());
         holder.track = track;
 
-        Log.d("TrackItemAdapter.getView", "trackData: " + track.toString());
+        Log.d("getView", "trackData: " + track.toString());
 
         return convertView;
     }
@@ -110,16 +110,9 @@ public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable 
         @BindView(R.id.track_name_text)
         TextView trackNameText;
 
-        @BindView(R.id.start_session_image)
-        ImageView startSessionImage;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
-        }
-
-        @OnClick(R.id.start_session_image)
-        void onClick() {
-            mPresenter.onTrackPlayItemClicked(track);
         }
     }
 

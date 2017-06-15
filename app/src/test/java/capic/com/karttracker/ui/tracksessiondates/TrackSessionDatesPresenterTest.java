@@ -3,6 +3,7 @@ package capic.com.karttracker.ui.tracksessiondates;
 import com.google.common.collect.Lists;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -68,19 +69,11 @@ public class TrackSessionDatesPresenterTest {
 
     @Test
     public void onStartNewSessionClicked_Test() {
-        Session sessionGenerated = new Session(1L, 1L, LocalDate.parse("2017-01-01"), 1L);
+        Session sessionGenerated = new Session(1L, 1L, LocalDate.parse("2017-01-01"), LocalTime.parse("00:00:00"),   LocalTime.parse("12:00:00"), 1L);
 
         when(mRepository.getLastSessionByTrackAndDate(1L, LocalDate.parse("2017-01-01"))).thenReturn(sessionGenerated);
         when(mRepository.insertSession(sessionGenerated)).thenReturn(sessionGenerated);
 
-        Session session = mPresenter.onStartNewSessionClicked(1L);
-
-        verify(mRepository).insertSession(sessionGenerated);
-
-        assertEquals(sessionGenerated.getMId(), session.getMId());
-        assertEquals(sessionGenerated.getMIdOfDay(), session.getMIdOfDay());
-        assertEquals(sessionGenerated.getMTrackId(), session.getMTrackId());
-        assertEquals(sessionGenerated.getMDate(), session.getMDate());
-
+        mPresenter.onStartNewSessionClicked();
     }
 }

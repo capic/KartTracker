@@ -14,6 +14,16 @@
     <string name="title_activity_track_session_dates">%1$s</string>
     <string name="title_activity_session_data_maps">%1$s - %2$s</string>
     <string name="stop_button_session_datas">Stop</string>
+    <string name="text_gps_datas_longitude">Longitude</string>
+    <string name="text_gps_datas_latitude">Latitude</string>
+    <string name="text_gps_data_altitude">Altitude</string>
+    <string name="text_gps_datas_speed">Speed</string>
+    <string name="context_menu_track_header">Actions</string>
+    <string name="context_menu_track_delete">Delete</string>
+    <string name="delete_track_warning_dialog_title">WARNING</string>
+    <string name="delete_track_warning_dialog_text">Be carreful the track has sessions !!!</string>
+    <string name="delete_track_warning_dialog_ok">OK</string>
+    <string name="delete_track_warning_dialog_cancel">CANCEL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

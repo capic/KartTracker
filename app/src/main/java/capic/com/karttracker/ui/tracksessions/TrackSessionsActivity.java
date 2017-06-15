@@ -11,11 +11,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,14 +25,8 @@ import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
-import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
-import capic.com.karttracker.ui.tracks.TrackItemAdapter;
-import capic.com.karttracker.ui.tracks.TracksActivity;
-import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.utils.ButterKnifeUtils;
-import capic.com.karttracker.utils.ServiceUtils;
 
 public class TrackSessionsActivity extends AppCompatActivity implements TrackSessionsContract.View {
     private Long mTrackId;
@@ -52,6 +43,8 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
 
     @BindView(R.id.fab)
     FloatingActionButton mFab;
+
+    private ArrayAdapter<Session>  mArrayAdapter;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, TrackSessionsActivity.class);
@@ -78,6 +71,11 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
         mPresenter.setView(this);
 
         setUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         mPresenter.loadTrackSessions(mTrackId, mSessionDate);
     }
@@ -94,12 +92,11 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     @OnClick(R.id.fab)
     public void onStartNewSessionClicked() {
         mPresenter.onStartNewSessionClicked();
-//        mTrackSessionsListView.getAdapter().notifyAll();
     }
 
     @OnItemClick(R.id.track_sessions_list_view)
     void onItemClick(int position) {
-        Session session = (Session)mTrackSessionsListView.getAdapter().getItem(position);
+        Session session = mArrayAdapter.getItem(position);
         mPresenter.onTrackSessionItemClicked(session);
     }
 
@@ -115,8 +112,8 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
 
     @Override
     public void showTrackSession(List<Session> trackSessionsList) {
-        ArrayAdapter<Session> adapter = new TrackSessionItemAdapter(this, R.layout.track_session_list_item, trackSessionsList);
-        mTrackSessionsListView.setAdapter(adapter);
+        mArrayAdapter = new TrackSessionItemAdapter(this, R.layout.track_session_list_item, trackSessionsList);
+        mTrackSessionsListView.setAdapter(mArrayAdapter);
     }
 
     @Override

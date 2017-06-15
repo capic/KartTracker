@@ -20,6 +20,7 @@ import capic.com.karttracker.app.modules.DataModule;
 public class KartTracker extends Application {
     private AppComponent mAppComponent;
     private DateFormat mDateFormat;
+    private DateFormat mTimeFormat;
 
     @Override
     public void onCreate() {
@@ -27,6 +28,7 @@ public class KartTracker extends Application {
         mAppComponent = initDagger(this);
         JodaTimeAndroid.init(this);
         mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+        mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
     }
 
     protected AppComponent initDagger(KartTracker application) {
@@ -48,4 +50,7 @@ public class KartTracker extends Application {
         return (SimpleDateFormat)mDateFormat;
     }
 
+    public SimpleDateFormat getTimeFormat() {
+        return (SimpleDateFormat)mTimeFormat;
+    }
 }

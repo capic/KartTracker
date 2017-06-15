@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -34,6 +35,7 @@ import butterknife.OnClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.gps.GpsService;
@@ -167,13 +169,19 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mInternalLocationReceiver);
     }
 
-    public void markStartingLocationOnMap(Location location){
-        if (mMap != null && location != null) {
+    public void markStartingLocationOnMap(SessionGpsData sessionGpsData){
+        if (mMap != null && sessionGpsData != null) {
             mMap.clear();
 
-            LatLng locationMarker = new LatLng(location.getLatitude(), location.getLongitude());
+            LatLng locationMarker = new LatLng(sessionGpsData.getMLatitude(), sessionGpsData.getMLongitude());
             mMap.addMarker(new MarkerOptions().position(locationMarker).title("Current location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(locationMarker));
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(locationMarker)
+                    .zoom(16)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
 
     }

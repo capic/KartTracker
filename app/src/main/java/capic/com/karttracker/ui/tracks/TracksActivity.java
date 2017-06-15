@@ -19,8 +19,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -50,6 +53,8 @@ public class TracksActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE = 100;
 
+    private static final int CONTEXT_MENU_ITEM_DELETE = 0;
+
     @Inject
     TracksContract.Presenter mPresenter;
 
@@ -67,6 +72,8 @@ public class TracksActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    private ArrayAdapter<Track> mArrayAdapter;
 
     private ActionBarDrawerToggle toggle;
 
@@ -110,6 +117,7 @@ public class TracksActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        registerForContextMenu(mTracksListView);
     }
 
     protected boolean runtimePermissions() {
@@ -128,7 +136,7 @@ public class TracksActivity extends AppCompatActivity
 
     @OnItemClick(R.id.tracksListView)
     void onItemClick(int position) {
-        Track track = (Track)mTracksListView.getAdapter().getItem(position);
+        Track track = mArrayAdapter.getItem(position);
         mPresenter.onTrackItemClicked(track);
     }
 
@@ -197,6 +205,28 @@ public class TracksActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+//        menu.setHeaderTitle(R.string.context_menu_track_header);
+        menu.add(0,CONTEXT_MENU_ITEM_DELETE, 0, R.string.context_menu_track_delete);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch(item.getItemId()) {
+            case CONTEXT_MENU_ITEM_DELETE:
+                mPresenter.onDeleteTrackClicked((Track)mTracksListView.getAdapter().getItem(info.position));
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
     @OnClick(R.id.fab)
     public void onCreateTrackClicked() {
         mPresenter.onCreateTrackClicked();
@@ -214,10 +244,8 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public void showTracks(List<Track> tracksList) {
-        ArrayAdapter<Track> adapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
-//        ((TrackItemAdapter)adapter).setPresenter(mPresenter);
-        mTracksListView.setAdapter(adapter);
-//        mTracksListView.getAdapter().notifyDataSetChanged();
+        mArrayAdapter = new TrackItemAdapter(this, R.layout.track_list_item, tracksList);
+        mTracksListView.setAdapter(mArrayAdapter);
     }
 
     @Override
@@ -235,9 +263,7 @@ public class TracksActivity extends AppCompatActivity
                         Track trackData = new Track();
                         trackData.setMName(editText.getText().toString());
 
-                        trackData = mPresenter.createTrack(trackData);
-
-                        openTrackSessionsActivity(trackData.getMId(), LocalDate.now());
+                        mPresenter.onCreateTrack(trackData);
 
                     }
                 })
@@ -248,6 +274,19 @@ public class TracksActivity extends AppCompatActivity
                 })
                 .show();
     }
+
+    @Override
+    public void addTrack(Track track) {
+        mArrayAdapter.add(track);
+        mArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeTrack(Track track) {
+        mArrayAdapter.remove(track);
+        mArrayAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void openTrackSessionsActivity(Long trackId, LocalDate sessionDate) {
         Intent intent = TrackSessionsActivity.getStartIntent(TracksActivity.this);
@@ -266,13 +305,32 @@ public class TracksActivity extends AppCompatActivity
     }
 
     @Override
+    public void showWarningDialogBoxTrackHasSessions(final Track track) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_track_warning_dialog_title)
+                .setView(R.layout.delete_track_warning_dialog)
+                .setPositiveButton(R.string.delete_track_warning_dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.onDeleteTrackWarningOkClicked(track);
+                    }
+                })
+                .setNegativeButton(R.string.delete_track_warning_dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ((TrackItemAdapter)mTracksListView.getAdapter()).getFilter().filter(newText);
+        mArrayAdapter.getFilter().filter(newText);
         return false;
     }
 }

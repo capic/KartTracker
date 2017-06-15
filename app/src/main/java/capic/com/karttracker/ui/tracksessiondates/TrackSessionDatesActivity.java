@@ -41,6 +41,8 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     @BindView(R.id.toolbar_track_session_date)
     Toolbar toolbar;
 
+    private ArrayAdapter<LocalDate> mArrayAdapter;
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, TrackSessionDatesActivity.class);
     }
@@ -78,12 +80,12 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     void onItemClick(int position) {
 //        String pattern = ((SimpleDateFormat) mDateFormat).toLocalizedPattern();
 //        DateTimeFormatter format = DateTimeFormat.forPattern(pattern);
-        mPresenter.onTrackSessionDateItemClicked((LocalDate)mTrackSessionDatesListView.getAdapter().getItem(position));
+        mPresenter.onTrackSessionDateItemClicked(mArrayAdapter.getItem(position));
     }
 
     @OnClick(R.id.fab)
     public void onStartNewSessionClicked() {
-        mPresenter.onStartNewSessionClicked(mTrackId);
+        mPresenter.onStartNewSessionClicked();
     }
 
     @Override
@@ -98,8 +100,8 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
 
     @Override
     public void showTrackSessionDate(List<LocalDate> trackSessionDatesList) {
-        ArrayAdapter<LocalDate> adapter = new TrackSessionDateItemAdapter(this, R.layout.track_session_date_list_item, trackSessionDatesList);
-        mTrackSessionDatesListView.setAdapter(adapter);
+        mArrayAdapter = new TrackSessionDateItemAdapter(this, R.layout.track_session_date_list_item, trackSessionDatesList);
+        mTrackSessionDatesListView.setAdapter(mArrayAdapter);
     }
 
     @Override
@@ -112,7 +114,7 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
     }
 
     @Override
-    public void openSessionDatasActivity(Long sessionId) {
+    public void openSessionDatasActivity() {
         Intent intent = SessionDataMapsActivity.getStartIntent(TrackSessionDatesActivity.this);
         intent.putExtra("trackId", mTrackId);
         startActivity(intent);

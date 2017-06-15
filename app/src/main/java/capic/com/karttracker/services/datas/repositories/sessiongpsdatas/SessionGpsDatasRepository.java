@@ -12,4 +12,6 @@ public interface SessionGpsDatasRepository {
     List<SessionGpsData> getSessionGpsDatasBySession(Long sessionId);
     SessionGpsData insertSessionGpsData(SessionGpsData sessionGpsData);
     SessionGpsData getSessionGpsData(Long id);
+    void deleteSessionGpsData(SessionGpsData sessionGpsData);
+    void deleteAllSessionGpsDataForSession(Long sessionId);
 }
