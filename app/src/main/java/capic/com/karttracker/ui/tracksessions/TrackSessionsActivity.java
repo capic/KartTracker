@@ -71,6 +71,11 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
         mPresenter.setView(this);
 
         setUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         mPresenter.loadTrackSessions(mTrackId, mSessionDate);
     }

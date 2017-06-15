@@ -282,6 +282,12 @@ public class TracksActivity extends AppCompatActivity
     }
 
     @Override
+    public void removeTrack(Track track) {
+        mArrayAdapter.remove(track);
+        mArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void openTrackSessionsActivity(Long trackId, LocalDate sessionDate) {
         Intent intent = TrackSessionsActivity.getStartIntent(TracksActivity.this);
         intent.putExtra("trackId", trackId);

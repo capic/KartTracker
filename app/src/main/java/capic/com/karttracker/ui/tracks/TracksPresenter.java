@@ -93,6 +93,8 @@ public class TracksPresenter implements TracksContract.Presenter {
         }
 
         mTracksRepository.deleteTrack(track);
+
+        mView.removeTrack(track);
         mView.hideLoading();
     }
 }

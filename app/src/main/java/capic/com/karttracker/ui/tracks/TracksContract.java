@@ -21,6 +21,7 @@ public interface TracksContract {
         void showTracks(List<Track> tracksList);
         void showCreateTrack();
         void addTrack(Track track);
+        void removeTrack(Track track);
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
         void showWarningDialogBoxTrackHasSessions(Track track);
