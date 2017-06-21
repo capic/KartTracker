@@ -80,6 +80,6 @@ public class LocationListener implements com.google.android.gms.location.Locatio
         previousLocation = location;
         previousTimestamp = timestamp;
 
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("googleLocation").putExtra("result", sessionGpsData));
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("googleLocation").putExtra("sessionGpsData", sessionGpsData));
     }
 }

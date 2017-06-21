@@ -31,6 +31,9 @@
     <string name="delete_track_warning_dialog_text">Attention le circuit a des sessions !!!</string>
     <string name="delete_track_warning_dialog_ok">OK</string>
     <string name="delete_track_warning_dialog_cancel">ANNULER</string>
+    <string name="text_acceleration_datas_x">Accel. X</string>
+    <string name="text_acceleration_datas_y">Accel. Y</string>
+    <string name="text_acceleration_datas_z">Accel. Z</string>
 
 
 </resources>

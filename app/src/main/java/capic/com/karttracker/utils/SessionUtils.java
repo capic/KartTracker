@@ -1,5 +1,8 @@
 package capic.com.karttracker.utils;
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -29,5 +32,9 @@ public class SessionUtils {
         session.setMTrackId(trackId);
 
         return session;
+    }
+
+    public static Float computeGForce(Float acceleration) {
+        return acceleration / SensorManager.GRAVITY_EARTH;
     }
 }

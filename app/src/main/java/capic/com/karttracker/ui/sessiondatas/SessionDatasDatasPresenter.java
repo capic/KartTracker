@@ -36,15 +36,4 @@ public class SessionDatasDatasPresenter implements SessionDatasContract.DatasPre
 
         mView.hideLoading();
     }
-
-    @Override
-    public void loadForTracking() {
-        mView.showLoading();
-
-        List<SessionGpsData> list = new ArrayList<>(1);
-        list.add(new SessionGpsData());
-        mView.showSessionDatasGps(list);
-
-        mView.hideLoading();
-    }
 }

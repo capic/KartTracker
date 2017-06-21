@@ -24,7 +24,7 @@ public class MapsLocationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final SessionDataMapsActivity activity = mActivity;
         if (activity != null) {
-            SessionGpsData sessionGpsData = (SessionGpsData)intent.getSerializableExtra("result");
+            SessionGpsData sessionGpsData = (SessionGpsData)intent.getSerializableExtra("sessionGpsData");
 
             mActivity.markStartingLocationOnMap(sessionGpsData);
         }

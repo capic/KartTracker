@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.location.LocationResult;
 
+import capic.com.karttracker.services.datas.models.SessionAccelerometerData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 
 /**
@@ -24,9 +25,11 @@ public class DatasLocationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final SessionDatasFragment activity = mActivity;
         if (activity != null) {
-            SessionGpsData sessionGpsData = (SessionGpsData)intent.getSerializableExtra("result");
+            SessionGpsData sessionGpsData = (SessionGpsData)intent.getSerializableExtra("sessionGpsData");
+            SessionAccelerometerData sessionAccelerometerData = (SessionAccelerometerData)intent.getSerializableExtra("sessionAccelerometerData");
 
-            mActivity.setValues(sessionGpsData);
+            mActivity.setValues(sessionGpsData, sessionAccelerometerData);
+
         }
     }
 }

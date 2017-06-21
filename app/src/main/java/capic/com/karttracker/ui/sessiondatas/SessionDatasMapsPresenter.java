@@ -55,6 +55,7 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
             mSession.setMEndTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
             mTrackSessionsRepository.updateSession(mSession);
             ServiceUtils.stopGpsService(context);
+            ServiceUtils.stopAccelerometerService(context);
         }
     }
 
@@ -74,5 +75,6 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
         Session sessionInserted = mTrackSessionsRepository.insertSession(mSession);
         ServiceUtils.startGpsService(context, sessionInserted.getMId());
+        ServiceUtils.startAccelerometerService(context, sessionInserted.getMId());
     }
 }

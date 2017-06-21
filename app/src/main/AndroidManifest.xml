@@ -55,6 +55,7 @@
         </activity>
 
         <service android:name=".services.gps.GpsService" />
+        <service android:name=".services.accelerometer.AccelerometerService" />
 
         <uses-feature
             android:name="android.hardware.sensor.accelerometer"

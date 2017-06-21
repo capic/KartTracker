@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import capic.com.karttracker.services.accelerometer.AccelerometerService;
 import capic.com.karttracker.services.gps.GpsService;
 
 /**
@@ -18,6 +19,14 @@ public class ServiceUtils {
 
     public static void stopGpsService(Context context) {
         context.stopService(new Intent(context, GpsService.class).putExtra("remove", true));
+    }
+
+    public static void startAccelerometerService(Context context, Long sessionId) {
+        context.startService(new Intent(context, AccelerometerService.class).putExtra("request", true).putExtra("sessionId", sessionId));
+    }
+
+    public static void stopAccelerometerService(Context context) {
+        context.stopService(new Intent(context, AccelerometerService.class).putExtra("remove", true));
     }
 
     public static boolean isMyServiceRunning(Context context, Class<?> serviceClass) {

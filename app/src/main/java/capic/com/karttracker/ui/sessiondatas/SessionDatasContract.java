@@ -35,6 +35,5 @@ public interface SessionDatasContract {
     public interface DatasPresenter {
         void setView(SessionDatasContract.DatasView view);
         void loadSessionGpsDatas(Long sessionId);
-        void loadForTracking();
     }
 }

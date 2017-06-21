@@ -11,7 +11,9 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 
 import capic.com.karttracker.services.datas.models.Track;
+import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
+import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -27,7 +29,11 @@ public class TracksPresenterTest {
     private TracksContract.View mView;
 
     @Mock
-    private TracksRepository mRepository;
+    private TracksRepository mTrackRepository;
+    @Mock
+    private TrackSessionsRepository mTrackSessionsRepository;
+    @Mock
+    private SessionGpsDatasRepository mSessionGpsDatasRepository;
 
     private TracksContract.Presenter mPresenter;
 
@@ -35,7 +41,7 @@ public class TracksPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        mPresenter = new TracksPresenter(mRepository);
+        mPresenter = new TracksPresenter(mTrackRepository, mTrackSessionsRepository, mSessionGpsDatasRepository);
         mPresenter.setView(mView);
 
         trackList = Lists.newArrayList(new Track(1L, "Track 1"), new Track(2L, "Track 2"), new Track(3L, "Track 3"));
@@ -43,12 +49,12 @@ public class TracksPresenterTest {
 
     @Test
     public void loadTracks_Test() {
-        when(mRepository.getAllTracks()).thenReturn(trackList);
+        when(mTrackRepository.getAllTracks()).thenReturn(trackList);
 
         mPresenter.loadTracks();
 
         verify(mView).showLoading();
-        verify(mRepository).getAllTracks();
+        verify(mTrackRepository).getAllTracks();
         verify(mView).showTracks(trackList);
         verify(mView).hideLoading();
     }
@@ -63,14 +69,14 @@ public class TracksPresenterTest {
     @Test
     public void createTrack_Test() {
         Track createdTrack = new Track(1L, "Created Track");
-        when(mRepository.insertTrack(createdTrack)).thenReturn(createdTrack);
+        when(mTrackRepository.insertTrack(createdTrack)).thenReturn(createdTrack);
 
-        Track track = mPresenter.createTrack(createdTrack);
+        mPresenter.onCreateTrack(createdTrack);
 
-        verify(mRepository).insertTrack(createdTrack);
+        verify(mTrackRepository).insertTrack(createdTrack);
 
-        assertEquals(createdTrack.getMId(), track.getMId());
-        assertEquals(createdTrack.getMName(), track.getMName());
+        assertEquals(createdTrack.getMId(), createdTrack.getMId());
+        assertEquals(createdTrack.getMName(), createdTrack.getMName());
     }
 
     @Test
