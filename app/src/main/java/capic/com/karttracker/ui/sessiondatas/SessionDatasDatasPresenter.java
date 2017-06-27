@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import capic.com.karttracker.services.datas.models.SessionData;
-import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 
 /**

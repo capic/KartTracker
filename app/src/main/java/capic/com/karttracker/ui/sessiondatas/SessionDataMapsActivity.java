@@ -3,6 +3,8 @@ package capic.com.karttracker.ui.sessiondatas;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import javax.inject.Inject;
 
@@ -27,6 +30,7 @@ import butterknife.OnClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
 import capic.com.karttracker.services.sensors.gps.GpsService;
@@ -82,7 +86,6 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.session_datas_frame, sessionDatasPagerFragment);
                 transaction.commit();
-
             } else {
                 if (track != null) {
                     mPresenter.startNewSession(this, track.getMId());
@@ -176,5 +179,35 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
 
+    }
+
+    public void drawRouteOnMap(SessionData[] sessionDataArray){
+        if (mMap != null && sessionDataArray != null) {
+            PolylineOptions options = new PolylineOptions().width(5);
+
+            if (sessionDataArray[0] != null) {
+                options.color(Color.RED);
+                options.add(
+                        new LatLng(sessionDataArray[0].getMSessionGpsData().getMLatitude(), sessionDataArray[0].getMSessionGpsData().getMLongitude()),
+                        new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()));
+            }
+
+            if (sessionDataArray[2] != null) {
+                options.color(Color.GREEN);
+                options.add(
+                        new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()),
+                        new LatLng(sessionDataArray[2].getMSessionGpsData().getMLatitude(), sessionDataArray[2].getMSessionGpsData().getMLongitude()));
+            }
+
+
+            mMap.addPolyline(options);
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()))
+                    .zoom(16)
+                    .bearing(90)
+                    .tilt(40)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
     }
 }

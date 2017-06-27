@@ -31,6 +31,8 @@ import capic.com.karttracker.utils.SessionUtils;
  * create an instance of this fragment.
  */
 public class SessionDatasFragment extends Fragment {
+    static boolean readonly = false;
+
     @BindView(R.id.text_longitude_value)
     TextView textLongitudeValue;
 
@@ -58,6 +60,7 @@ public class SessionDatasFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable("val", val);
         inst.setArguments(args);
+        readonly = true;
         return inst;
     }
 
@@ -89,7 +92,10 @@ public class SessionDatasFragment extends Fragment {
 
         if (getArguments() != null) {
             setValues((SessionData) getArguments().getSerializable("val"));
-            mInternalLocationReceiver = new DatasLocationReceiver(this);
+
+            if (!readonly) {
+                mInternalLocationReceiver = new DatasLocationReceiver(this);
+            }
         }
 
         return view;
@@ -109,13 +115,17 @@ public class SessionDatasFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mInternalLocationReceiver, new IntentFilter(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME));
+        if (!readonly) {
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(mInternalLocationReceiver, new IntentFilter(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME));
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mInternalLocationReceiver);
+        if (!readonly) {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mInternalLocationReceiver);
+        }
     }
 
     /**

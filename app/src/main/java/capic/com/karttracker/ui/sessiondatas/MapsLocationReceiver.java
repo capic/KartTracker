@@ -26,14 +26,19 @@ public class MapsLocationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final SessionDataMapsActivity activity = mActivity;
         if (activity != null) {
-            SessionGpsData sessionGpsData = new SessionGpsData();
-            if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME)) {
-                sessionGpsData = (SessionGpsData)intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME);
-            } else if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)) {
-                sessionGpsData = ((SessionData)intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)).getMSessionGpsData();
+            if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME)) {
+                mActivity.drawRouteOnMap((SessionData[]) intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME));
+            } else {
+                SessionGpsData sessionGpsData = new SessionGpsData();
+                if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME)) {
+                    sessionGpsData = (SessionGpsData) intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME);
+                } else if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)) {
+                    sessionGpsData = ((SessionData) intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)).getMSessionGpsData();
+                }
+
+                mActivity.markStartingLocationOnMap(sessionGpsData);
             }
 
-            mActivity.markStartingLocationOnMap(sessionGpsData);
         }
     }
 }

@@ -105,14 +105,23 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     public void showSessionDatas(List<SessionData> list) {
         mSessionDatasPagerAdapter = new SessionDatasPagerAdapter(getChildFragmentManager(), list);
         mPager.setAdapter(mSessionDatasPagerAdapter);
+
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME, mSessionDatasPagerAdapter.getSessionData(0)));
     }
 
     @OnPageChange
     public void onPageChange(int position) {
         Log.d("SessionDataPageFragment", "change => " + position);
 
-        SessionData sessionData = mSessionDatasPagerAdapter.getSessionData(position);
+        SessionData[] sessionDataArray = new SessionData[3];
+        if (position > 0) {
+            sessionDataArray[0] = mSessionDatasPagerAdapter.getSessionData(position - 1);
+        }
+        sessionDataArray[1] = mSessionDatasPagerAdapter.getSessionData(position);
+        if (position < mSessionDatasPagerAdapter.getCount() - 1) {
+            sessionDataArray[2] = mSessionDatasPagerAdapter.getSessionData(position + 1);
+        }
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME, sessionData));
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME, sessionDataArray));
     }
 }
