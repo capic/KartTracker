@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 
 /**
@@ -13,9 +14,9 @@ import capic.com.karttracker.services.datas.models.SessionGpsData;
  */
 
 public class SessionDatasPagerAdapter extends FragmentStatePagerAdapter {
-    private List<SessionGpsData> mList;
+    private List<SessionData> mList;
 
-    public SessionDatasPagerAdapter(FragmentManager fragmentManager, List<SessionGpsData> list) {
+    public SessionDatasPagerAdapter(FragmentManager fragmentManager, List<SessionData> list) {
         super(fragmentManager);
         mList = list;
     }
@@ -27,10 +28,10 @@ public class SessionDatasPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return SessionDatasFragment.init(getSessionGpsData(position));
+        return SessionDatasFragment.init(getSessionData(position));
     }
 
-    public SessionGpsData getSessionGpsData(int position) {
+    public SessionData getSessionData(int position) {
         return  mList.get(position);
     }
 }

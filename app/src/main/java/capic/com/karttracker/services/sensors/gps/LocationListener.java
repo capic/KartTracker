@@ -1,4 +1,4 @@
-package capic.com.karttracker.services.gps;
+package capic.com.karttracker.services.sensors.gps;
 
 
 import android.content.Context;
@@ -11,8 +11,9 @@ import javax.inject.Inject;
 
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
-import capic.com.karttracker.utils.SessionUtils;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
+import capic.com.karttracker.services.sensors.SensorsSynchronizer;
+import capic.com.karttracker.utils.Constants;
 
 /**
  * Created by Vincent on 02/06/2017.
@@ -26,7 +27,11 @@ public class LocationListener implements com.google.android.gms.location.Locatio
 
 
     @Inject
-    SessionGpsDatasRepository repository;
+    SessionDatasRepository repository;
+
+    @Inject
+    SensorsSynchronizer sync;
+
     private String result;
 
     public LocationListener(Context context) {
@@ -72,14 +77,14 @@ public class LocationListener implements com.google.android.gms.location.Locatio
             sessionGpsData.setMSpeed(0f);
         }
 
-        sessionGpsData.setMTimestamp(timestamp);
-        sessionGpsData.setMSessionId(mSessionId);
 
-        repository.insertSessionGpsData(sessionGpsData);
+        sync.setSessionGpsData(sessionGpsData);
+        sync.unlock();
+//        repository.insertSessionGpsData(sessionGpsData);
 
         previousLocation = location;
         previousTimestamp = timestamp;
 
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("googleLocation").putExtra("sessionGpsData", sessionGpsData));
+//        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME, sessionGpsData));
     }
 }

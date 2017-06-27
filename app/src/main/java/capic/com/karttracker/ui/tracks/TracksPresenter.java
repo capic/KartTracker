@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 
@@ -22,13 +22,13 @@ public class TracksPresenter implements TracksContract.Presenter {
     TracksContract.View mView;
     TracksRepository mTracksRepository;
     TrackSessionsRepository mTrackSessionRepository;
-    SessionGpsDatasRepository mSessionGpsDatasRepository;
+    SessionDatasRepository mSessionDatasRepository;
 
     @Inject
-    public TracksPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository,SessionGpsDatasRepository sessionGpsDatasRepository) {
+    public TracksPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository,SessionDatasRepository sessionDatasRepository) {
         this.mTracksRepository = tracksRepository;
         this.mTrackSessionRepository = trackSessionsRepository;
-        this.mSessionGpsDatasRepository = sessionGpsDatasRepository;
+        this.mSessionDatasRepository = sessionDatasRepository;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class TracksPresenter implements TracksContract.Presenter {
         mView.showLoading();
 
         for (Session session : mTrackSessionRepository.getSessionsByTrack(track.getMId())) {
-            mSessionGpsDatasRepository.deleteAllSessionGpsDataForSession(session.getMId());
+            mSessionDatasRepository.deleteSessionData(session.getMId());
             mTrackSessionRepository.deleteSession(session);
         }
 

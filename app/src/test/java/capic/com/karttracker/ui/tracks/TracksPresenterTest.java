@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 
 import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 
@@ -33,7 +33,7 @@ public class TracksPresenterTest {
     @Mock
     private TrackSessionsRepository mTrackSessionsRepository;
     @Mock
-    private SessionGpsDatasRepository mSessionGpsDatasRepository;
+    private SessionDatasRepository mSessionDatasRepository;
 
     private TracksContract.Presenter mPresenter;
 
@@ -41,7 +41,7 @@ public class TracksPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        mPresenter = new TracksPresenter(mTrackRepository, mTrackSessionsRepository, mSessionGpsDatasRepository);
+        mPresenter = new TracksPresenter(mTrackRepository, mTrackSessionsRepository, mSessionDatasRepository);
         mPresenter.setView(mView);
 
         trackList = Lists.newArrayList(new Track(1L, "Track 1"), new Track(2L, "Track 2"), new Track(3L, "Track 3"));

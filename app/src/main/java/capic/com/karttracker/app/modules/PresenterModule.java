@@ -2,7 +2,7 @@ package capic.com.karttracker.app.modules;
 
 import javax.inject.Singleton;
 
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasContract;
@@ -25,8 +25,8 @@ import dagger.Provides;
 public class PresenterModule {
     @Singleton
     @Provides
-    TracksContract.Presenter provideTracksPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
-        return new TracksPresenter(tracksRepository, trackSessionsRepository, sessionGpsDatasRepository);
+    TracksContract.Presenter provideTracksPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionDatasRepository sessionDatasRepository) {
+        return new TracksPresenter(tracksRepository, trackSessionsRepository, sessionDatasRepository);
     }
 
     @Singleton
@@ -43,13 +43,13 @@ public class PresenterModule {
 
     @Singleton
     @Provides
-    SessionDatasContract.MapsPresenter provideSessionDataMapsPresenter(TracksRepository trackRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
-        return  new SessionDatasMapsPresenter(trackRepository, trackSessionsRepository, sessionGpsDatasRepository);
+    SessionDatasContract.MapsPresenter provideSessionDataMapsPresenter(TracksRepository trackRepository, TrackSessionsRepository trackSessionsRepository, SessionDatasRepository sessionDatasRepository) {
+        return  new SessionDatasMapsPresenter(trackRepository, trackSessionsRepository, sessionDatasRepository);
     }
 
     @Singleton
     @Provides
-    SessionDatasContract.DatasPresenter provideSessionDatasDatasPresenter(SessionGpsDatasRepository repository) {
+    SessionDatasContract.DatasPresenter provideSessionDatasDatasPresenter(SessionDatasRepository repository) {
         return  new SessionDatasDatasPresenter(repository);
     }
 }

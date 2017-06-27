@@ -9,7 +9,7 @@ import org.greenrobot.greendao.annotation.Property;
  * Created by capic on 29/04/2017.
  */
 
-@Entity
+@Entity(nameInDb = "track")
 public class Track {
     @Id
     @Property(nameInDb = "id")

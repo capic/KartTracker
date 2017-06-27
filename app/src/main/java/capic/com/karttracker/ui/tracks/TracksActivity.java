@@ -30,7 +30,6 @@ import android.widget.ListView;
 
 import org.joda.time.LocalDate;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,10 +41,8 @@ import butterknife.OnItemClick;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.gps.GpsService;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
-import capic.com.karttracker.utils.ServiceUtils;
 
 
 public class TracksActivity extends AppCompatActivity

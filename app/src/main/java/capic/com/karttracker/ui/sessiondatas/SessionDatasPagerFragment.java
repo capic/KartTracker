@@ -26,7 +26,9 @@ import butterknife.OnPageChange;
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
+import capic.com.karttracker.utils.Constants;
 
 /**
  * Created by Vincent on 08/06/2017.
@@ -72,7 +74,7 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
         mPresenter.setView(this);
 
         if (getArguments() != null) {
-            mPresenter.loadSessionGpsDatas(getArguments().getLong(ARG_SESSION_ID));
+            mPresenter.loadSessionDatas(getArguments().getLong(ARG_SESSION_ID));
         }
 
         // Inflate the layout for this fragment
@@ -100,7 +102,7 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     }
 
     @Override
-    public void showSessionDatasGps(List<SessionGpsData> list) {
+    public void showSessionDatas(List<SessionData> list) {
         mSessionDatasPagerAdapter = new SessionDatasPagerAdapter(getChildFragmentManager(), list);
         mPager.setAdapter(mSessionDatasPagerAdapter);
     }
@@ -109,8 +111,8 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
     public void onPageChange(int position) {
         Log.d("SessionDataPageFragment", "change => " + position);
 
-        SessionGpsData sessionGpsData = mSessionDatasPagerAdapter.getSessionGpsData(position);
+        SessionData sessionData = mSessionDatasPagerAdapter.getSessionData(position);
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("googleLocation").putExtra("result", sessionGpsData));
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME, sessionData));
     }
 }

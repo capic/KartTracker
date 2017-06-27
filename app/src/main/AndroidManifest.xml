@@ -54,8 +54,8 @@
                 android:value=".ui.tracksessions.TrackSessionsActivity" />-->
         </activity>
 
-        <service android:name=".services.gps.GpsService" />
-        <service android:name=".services.accelerometer.AccelerometerService" />
+        <service android:name=".services.sensors.gps.GpsService" />
+        <service android:name=".services.sensors.accelerometer.AccelerometerService" />
 
         <uses-feature
             android:name="android.hardware.sensor.accelerometer"

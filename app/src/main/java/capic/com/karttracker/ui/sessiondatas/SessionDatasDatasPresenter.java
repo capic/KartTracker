@@ -1,12 +1,12 @@
 package capic.com.karttracker.ui.sessiondatas;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 
 /**
  * Created by Vincent on 01/06/2017.
@@ -15,10 +15,10 @@ import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.Session
 public class SessionDatasDatasPresenter implements SessionDatasContract.DatasPresenter {
     private SessionDatasContract.DatasView mView;
 
-    SessionGpsDatasRepository mRepository;
+    SessionDatasRepository mRepository;
 
     @Inject
-    public SessionDatasDatasPresenter(SessionGpsDatasRepository repository) {
+    public SessionDatasDatasPresenter(SessionDatasRepository repository) {
         this.mRepository = repository;
     }
 
@@ -28,11 +28,11 @@ public class SessionDatasDatasPresenter implements SessionDatasContract.DatasPre
     }
 
     @Override
-    public void loadSessionGpsDatas(Long sessionId) {
+    public void loadSessionDatas(Long sessionId) {
         mView.showLoading();
 
-        List<SessionGpsData> list = mRepository.getSessionGpsDatasBySession(sessionId);
-        mView.showSessionDatasGps(list);
+        List<SessionData> list = mRepository.getSessionDatasBySession(sessionId);
+        mView.showSessionDatas(list);
 
         mView.hideLoading();
     }

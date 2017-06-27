@@ -3,15 +3,11 @@ package capic.com.karttracker.ui.sessiondatas;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,10 +19,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.joda.time.LocalDate;
-
-import java.util.Date;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -37,9 +29,9 @@ import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
-import capic.com.karttracker.services.gps.GpsService;
+import capic.com.karttracker.services.sensors.gps.GpsService;
 import capic.com.karttracker.utils.ButterKnifeUtils;
+import capic.com.karttracker.utils.Constants;
 import capic.com.karttracker.utils.ServiceUtils;
 
 public class SessionDataMapsActivity extends FragmentActivity implements SessionDatasContract.MapsView, OnMapReadyCallback, SessionDatasFragment.OnFragmentInteractionListener {
@@ -160,7 +152,7 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mInternalLocationReceiver, new IntentFilter("googleLocation"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mInternalLocationReceiver, new IntentFilter(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME));
     }
 
     @Override

@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.google.android.gms.location.LocationResult;
 
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
+import capic.com.karttracker.utils.Constants;
 
 /**
  * Created by capic on 08/06/2017.
@@ -24,7 +26,12 @@ public class MapsLocationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final SessionDataMapsActivity activity = mActivity;
         if (activity != null) {
-            SessionGpsData sessionGpsData = (SessionGpsData)intent.getSerializableExtra("sessionGpsData");
+            SessionGpsData sessionGpsData = new SessionGpsData();
+            if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME)) {
+                sessionGpsData = (SessionGpsData)intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME);
+            } else if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)) {
+                sessionGpsData = ((SessionData)intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME)).getMSessionGpsData();
+            }
 
             mActivity.markStartingLocationOnMap(sessionGpsData);
         }

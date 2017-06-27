@@ -1,4 +1,4 @@
-package capic.com.karttracker.services.accelerometer;
+package capic.com.karttracker.services.sensors.accelerometer;
 
 import android.app.Service;
 import android.content.Context;
@@ -8,10 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-
-import capic.com.karttracker.services.gps.LocationListener;
 
 /**
  * Created by Vincent on 20/06/2017.
@@ -49,6 +46,7 @@ public class AccelerometerService extends Service {
         if (intent.getBooleanExtra("request", false)) {
             Handler handler = new Handler(mHandlerThread.getLooper());
             mSensorManager.registerListener(mAccelerometerListener, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST, handler);
+            mAccelerometerListener.setSessionId(intent.getExtras().getLong("sessionId"));
         }else if (intent.getBooleanExtra("remove", false)) {
             stopSelf();
         }

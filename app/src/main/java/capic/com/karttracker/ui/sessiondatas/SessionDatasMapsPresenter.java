@@ -4,7 +4,6 @@ import android.content.Context;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalTime;
 
 import java.util.Calendar;
 import java.util.List;
@@ -14,11 +13,10 @@ import javax.inject.Inject;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
-import capic.com.karttracker.services.datas.repositories.sessiongpsdatas.SessionGpsDatasRepository;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
 import capic.com.karttracker.services.datas.repositories.tracks.TracksRepository;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
-import capic.com.karttracker.services.gps.GpsService;
-import capic.com.karttracker.ui.tracks.TracksContract;
+import capic.com.karttracker.services.sensors.gps.GpsService;
 import capic.com.karttracker.utils.ServiceUtils;
 import capic.com.karttracker.utils.SessionUtils;
 
@@ -35,13 +33,13 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
 
     TracksRepository mTracksRepository;
     TrackSessionsRepository mTrackSessionsRepository;
-    SessionGpsDatasRepository mSessionGpsDatasRepository;
+    SessionDatasRepository mSessionDatasRepository;
 
     @Inject
-    public SessionDatasMapsPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionGpsDatasRepository sessionGpsDatasRepository) {
+    public SessionDatasMapsPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionDatasRepository sessionGpsDatasRepository) {
         mTracksRepository = tracksRepository;
         mTrackSessionsRepository = trackSessionsRepository;
-        mSessionGpsDatasRepository = sessionGpsDatasRepository;
+        mSessionDatasRepository = sessionGpsDatasRepository;
     }
 
     @Override

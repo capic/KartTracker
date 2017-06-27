@@ -3,10 +3,9 @@ package capic.com.karttracker.utils;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import capic.com.karttracker.services.accelerometer.AccelerometerService;
-import capic.com.karttracker.services.gps.GpsService;
+import capic.com.karttracker.services.sensors.accelerometer.AccelerometerService;
+import capic.com.karttracker.services.sensors.gps.GpsService;
 
 /**
  * Created by Vincent on 31/05/2017.

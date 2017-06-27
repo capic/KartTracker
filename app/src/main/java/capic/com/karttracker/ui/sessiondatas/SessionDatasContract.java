@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import capic.com.karttracker.services.datas.models.Session;
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
 
@@ -21,7 +22,7 @@ public interface SessionDatasContract {
     public interface DatasView {
         void showLoading();
         void hideLoading();
-        void showSessionDatasGps(List<SessionGpsData> list);
+        void showSessionDatas(List<SessionData> list);
     }
 
     public interface MapsPresenter {
@@ -34,6 +35,6 @@ public interface SessionDatasContract {
 
     public interface DatasPresenter {
         void setView(SessionDatasContract.DatasView view);
-        void loadSessionGpsDatas(Long sessionId);
+        void loadSessionDatas(Long sessionId);
     }
 }

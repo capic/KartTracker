@@ -1,4 +1,4 @@
-package capic.com.karttracker.services.accelerometer;
+package capic.com.karttracker.services.sensors.accelerometer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,10 @@ import javax.inject.Inject;
 
 import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.services.datas.models.SessionAccelerometerData;
-import capic.com.karttracker.services.datas.repositories.sessionaccelerometerdatas.SessionAccelerometerDatasRepository;
+import capic.com.karttracker.services.datas.models.SessionData;
+import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDatasRepository;
+import capic.com.karttracker.services.sensors.SensorsSynchronizer;
+import capic.com.karttracker.utils.Constants;
 
 /**
  * Created by Vincent on 20/06/2017.
@@ -22,7 +25,10 @@ public class AccelerometerListener implements SensorEventListener {
     private Long mSessionId;
 
     @Inject
-    SessionAccelerometerDatasRepository mRepository;
+    SessionDatasRepository mRepository;
+
+    @Inject
+    SensorsSynchronizer sync;
 
     public AccelerometerListener(Context context) {
         mContext = context;
@@ -35,18 +41,18 @@ public class AccelerometerListener implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Long timestamp = System.currentTimeMillis();
-
         SessionAccelerometerData sessionAccelerometerData = new SessionAccelerometerData();
-        sessionAccelerometerData.setMTimestamp(timestamp);
-        sessionAccelerometerData.setMSessionId(mSessionId);
         sessionAccelerometerData.setMXAcceleration(event.values[0]);
         sessionAccelerometerData.setMYAcceleration(event.values[1]);
         sessionAccelerometerData.setMZAcceleration(event.values[2]);
 
-        mRepository.insertSessionAccelerometerData(sessionAccelerometerData);
+        if (sync.isLock() == false) {
+            SessionData sessionData = mRepository.createSessionData(sync.getSessionGpsData(), sessionAccelerometerData, mSessionId);
+//            LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_ACCELEROMETER_NAME, sessionAccelerometerData));
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME).putExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_NAME, sessionData));
+            sync.lock();
+        }
 
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("googleLocation").putExtra("sessionAccelerometerData", sessionAccelerometerData));
     }
 
     @Override

@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import capic.com.karttracker.R;
 import capic.com.karttracker.services.datas.models.SessionAccelerometerData;
+import capic.com.karttracker.services.datas.models.SessionData;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.utils.Constants;
 import capic.com.karttracker.utils.SessionUtils;
@@ -51,7 +52,7 @@ public class SessionDatasFragment extends Fragment {
     @BindView(R.id.text_gforce_z_value)
     TextView textGForceZValue;
 
-    static  SessionDatasFragment init(SessionGpsData val) {
+    static  SessionDatasFragment init(SessionData val) {
         SessionDatasFragment inst = new SessionDatasFragment();
         // Supply val input as an argument.
         Bundle args = new Bundle();
@@ -87,7 +88,7 @@ public class SessionDatasFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         if (getArguments() != null) {
-            setValues((SessionGpsData) getArguments().getSerializable("val"), null); //TODO
+            setValues((SessionData) getArguments().getSerializable("val"));
             mInternalLocationReceiver = new DatasLocationReceiver(this);
         }
 
@@ -108,7 +109,7 @@ public class SessionDatasFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mInternalLocationReceiver, new IntentFilter("googleLocation"));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mInternalLocationReceiver, new IntentFilter(Constants.BROADCASTER_SESSION_DATA_INSTANT_NAME));
     }
 
     @Override
@@ -132,18 +133,20 @@ public class SessionDatasFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    protected void setValues(SessionGpsData sessionGpsData, SessionAccelerometerData sessionAccelerometerData) {
-        if (sessionGpsData != null) {
-            textLatitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMLatitude()));
-            textLongitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMLongitude()));
-            textAltitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionGpsData.getMAltitude()));
-            textSpeedValue.setText(String.format(Locale.getDefault(), Constants.SPEED_FORMAT, sessionGpsData.getMSpeed()));
-        }
+    protected void setValues(SessionData sessionData) {
+        if (sessionData != null) {
+            if (sessionData.getMSessionGpsData() != null) {
+                textLatitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionData.getMSessionGpsData().getMLatitude()));
+                textLongitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionData.getMSessionGpsData().getMLongitude()));
+                textAltitudeValue.setText(String.format(Locale.getDefault(), Constants.COORDINATE_FORMAT, sessionData.getMSessionGpsData().getMAltitude()));
+                textSpeedValue.setText(String.format(Locale.getDefault(), Constants.SPEED_FORMAT, sessionData.getMSessionGpsData().getMSpeed()));
+            }
 
-        if (sessionAccelerometerData != null) {
-            textGForceXValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, SessionUtils.computeGForce(sessionAccelerometerData.getMXAcceleration())));
-            textGForceYValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, SessionUtils.computeGForce(sessionAccelerometerData.getMYAcceleration())));
-            textGForceZValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, SessionUtils.computeGForce(sessionAccelerometerData.getMZAcceleration())));
+            if (sessionData.getMSessionAccelerometerData() != null) {
+                textGForceXValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, /*SessionUtils.computeGForce(*/sessionData.getMSessionAccelerometerData().getMXAcceleration()))/*)*/;
+                textGForceYValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, /*SessionUtils.computeGForce(*/sessionData.getMSessionAccelerometerData().getMYAcceleration()))/*)*/;
+                textGForceZValue.setText(String.format(Locale.getDefault(), Constants.GFORCE_FORMAT, /*SessionUtils.computeGForce(*/sessionData.getMSessionAccelerometerData().getMZAcceleration()))/*)*/;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ import java.util.Date;
  * Created by capic on 15/05/2017.
  */
 
-@Entity
+@Entity(nameInDb = "session")
 public class Session {
     @Id
     @Property(nameInDb = "id")
