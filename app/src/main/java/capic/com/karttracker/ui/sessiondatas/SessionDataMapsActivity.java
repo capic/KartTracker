@@ -17,10 +17,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,6 +51,8 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
     Button buttonStopSessionData;
 
     private MapsLocationReceiver mInternalLocationReceiver;
+
+    private List<Polyline> polylinesList;
 
 //    @BindView(R.id.toolbar_session_data_maps)
 //    Toolbar mToolbar;
@@ -117,12 +124,15 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
         setTitle(getResources().getString(R.string.title_activity_session_data_maps, trackName, sessionName));
 
+        polylinesList = new LinkedList<>();
+
         ButterKnife.apply(buttonStopSessionData, ButterKnifeUtils.VISIBILITY, ServiceUtils.isMyServiceRunning(this, GpsService.class) ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @OnClick(R.id.button_stop)
@@ -181,31 +191,42 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
     }
 
+    protected void addLineToPolylineOption(PolylineOptions polylineOptions, SessionData sessionDataPrev, SessionData sessionDataCurrent) {
+        if (sessionDataCurrent != null) {
+            if (sessionDataPrev != null){
+                polylineOptions.add(
+                        new LatLng(sessionDataPrev.getMSessionGpsData().getMLatitude(), sessionDataPrev.getMSessionGpsData().getMLongitude()),
+                        new LatLng(sessionDataCurrent.getMSessionGpsData().getMLatitude(), sessionDataCurrent.getMSessionGpsData().getMLongitude()));
+            }
+
+            polylineOptions.color(sessionDataCurrent.getMSessionAccelerometerData().getMXAcceleration() > 0 ? Color.GREEN : Color.RED);
+        }
+
+    }
+
     public void drawRouteOnMap(SessionData[] sessionDataArray){
         if (mMap != null && sessionDataArray != null) {
+
+//            for(Polyline line : polylinesList)
+//            {
+//                line.remove();
+//            }
+//            polylinesList.clear();
+
             PolylineOptions options = new PolylineOptions().width(5);
 
-            if (sessionDataArray[0] != null) {
-                options.color(Color.RED);
-                options.add(
-                        new LatLng(sessionDataArray[0].getMSessionGpsData().getMLatitude(), sessionDataArray[0].getMSessionGpsData().getMLongitude()),
-                        new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()));
-            }
+            addLineToPolylineOption(options, sessionDataArray[0], sessionDataArray[1]);
+            addLineToPolylineOption(options, sessionDataArray[1], sessionDataArray[2]);
+            addLineToPolylineOption(options, sessionDataArray[0], sessionDataArray[1]);
 
-            if (sessionDataArray[2] != null) {
-                options.color(Color.GREEN);
-                options.add(
-                        new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()),
-                        new LatLng(sessionDataArray[2].getMSessionGpsData().getMLatitude(), sessionDataArray[2].getMSessionGpsData().getMLongitude()));
-            }
+            Polyline polyline = mMap.addPolyline(options);
+            polylinesList.add(polyline);
 
-
-            mMap.addPolyline(options);
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(sessionDataArray[1].getMSessionGpsData().getMLatitude(), sessionDataArray[1].getMSessionGpsData().getMLongitude()))
                     .zoom(16)
-                    .bearing(90)
-                    .tilt(40)
+//                    .bearing(90)
+//                    .tilt(40)
                     .build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }

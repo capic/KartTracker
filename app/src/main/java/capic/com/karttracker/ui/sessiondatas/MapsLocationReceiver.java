@@ -27,7 +27,9 @@ public class MapsLocationReceiver extends BroadcastReceiver {
         final SessionDataMapsActivity activity = mActivity;
         if (activity != null) {
             if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME)) {
-                mActivity.drawRouteOnMap((SessionData[]) intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME));
+                SessionData[] sessionDatasArray = (SessionData[]) intent.getSerializableExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_DATAS_ARRAY_NAME);
+                mActivity.drawRouteOnMap(sessionDatasArray);
+//                mActivity.markStartingLocationOnMap(sessionDatasArray[1].getMSessionGpsData());
             } else {
                 SessionGpsData sessionGpsData = new SessionGpsData();
                 if (intent.hasExtra(Constants.BROADCASTER_SESSION_DATA_EXTRA_GPS_NAME)) {
