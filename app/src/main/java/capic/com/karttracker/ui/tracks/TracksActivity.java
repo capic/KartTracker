@@ -28,6 +28,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -52,8 +54,8 @@ public class TracksActivity extends AppCompatActivity
 
     private static final int CONTEXT_MENU_ITEM_DELETE = 0;
 
-    @Inject
-    TracksContract.Presenter mPresenter;
+    @InjectPresenter
+    TracksPresenter mPresenter;
 
     @BindView(R.id.tracksListView)
     ListView mTracksListView;
@@ -84,8 +86,6 @@ public class TracksActivity extends AppCompatActivity
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
-
-        mPresenter.setView(this);
 
         setUp();
 

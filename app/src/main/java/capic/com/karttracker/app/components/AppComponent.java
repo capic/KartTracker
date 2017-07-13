@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import capic.com.karttracker.app.modules.AppModule;
 import capic.com.karttracker.app.modules.DataModule;
-import capic.com.karttracker.app.modules.PresenterModule;
 import capic.com.karttracker.app.modules.SensorModule;
 import capic.com.karttracker.services.sensors.accelerometer.AccelerometerListener;
 import capic.com.karttracker.services.sensors.gps.LocationListener;
@@ -21,7 +20,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {AppModule.class, DataModule.class, PresenterModule.class, SensorModule.class})
+@Component(modules = {AppModule.class, DataModule.class, SensorModule.class})
 public interface AppComponent {
     void inject(TracksActivity activity);
     void inject(TrackItemAdapter adapter);

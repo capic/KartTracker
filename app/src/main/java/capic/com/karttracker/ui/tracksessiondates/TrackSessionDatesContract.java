@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracksessiondates;
 
+import com.arellomobile.mvp.MvpView;
+
 import org.joda.time.LocalDate;
 
 import java.text.DateFormat;
@@ -15,18 +17,11 @@ import capic.com.karttracker.ui.tracks.TracksContract;
  */
 
 public interface TrackSessionDatesContract {
-    public interface View {
+    public interface View extends MvpView {
         void showLoading();
         void hideLoading();
         void showTrackSessionDate(List<LocalDate> trackSessionDatesList);
         void openTrackSessionsActivity(LocalDate date);
         void openSessionDatasActivity();
-    }
-
-    public interface Presenter {
-        void setView(TrackSessionDatesContract.View view);
-        void loadTrackSessionDates(Long trackId);
-        void onTrackSessionDateItemClicked(LocalDate date);
-        void onStartNewSessionClicked();
     }
 }

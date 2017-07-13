@@ -1,5 +1,8 @@
 package capic.com.karttracker.ui.tracksessiondates;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import org.joda.time.LocalDate;
 
 import java.text.DateFormat;
@@ -17,9 +20,8 @@ import capic.com.karttracker.utils.SessionUtils;
 /**
  * Created by capic on 16/05/2017.
  */
-
-public class TrackSessionDatesPresenter implements TrackSessionDatesContract.Presenter {
-    TrackSessionDatesContract.View mView;
+@InjectViewState
+public class TrackSessionDatesPresenter extends MvpPresenter<TrackSessionDatesContract.View> {
     TrackSessionsRepository mTrackSessionsRepository;
 
     @Inject
@@ -27,29 +29,20 @@ public class TrackSessionDatesPresenter implements TrackSessionDatesContract.Pre
         this.mTrackSessionsRepository = trackSessionsRepository;
     }
 
-
-    @Override
-    public void setView(TrackSessionDatesContract.View view) {
-        this.mView = view;
-    }
-
-    @Override
     public void loadTrackSessionDates(Long trackId) {
-        mView.showLoading();
+        getViewState().showLoading();
         List<LocalDate> datesList = mTrackSessionsRepository.getSessionDatesByTrack(trackId);
-        mView.showTrackSessionDate(datesList);
-        mView.hideLoading();
+        getViewState().showTrackSessionDate(datesList);
+        getViewState().hideLoading();
     }
 
-    @Override
     public void onTrackSessionDateItemClicked(LocalDate date) {
-        mView.openTrackSessionsActivity(date);
+        getViewState().openTrackSessionsActivity(date);
     }
 
-    @Override
     public void onStartNewSessionClicked() {
-        mView.showLoading();
+        getViewState().showLoading();
 
-        mView.openSessionDatasActivity();
+        getViewState().openSessionDatasActivity();
     }
 }

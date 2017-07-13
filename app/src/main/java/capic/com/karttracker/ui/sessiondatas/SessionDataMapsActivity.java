@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,8 +36,8 @@ import capic.com.karttracker.utils.Constants;
 import capic.com.karttracker.utils.ServiceUtils;
 
 public class SessionDataMapsActivity extends FragmentActivity implements SessionDatasContract.MapsView, OnMapReadyCallback, SessionDatasFragment.OnFragmentInteractionListener {
-    @Inject
-    SessionDatasContract.MapsPresenter mPresenter;
+    @InjectPresenter
+    SessionDatasMapsPresenter mPresenter;
 
     @BindView(R.id.button_stop)
     Button buttonStopSessionData;
@@ -63,8 +64,6 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
 
         ((KartTracker)getApplication()).getAppComponent().inject(this);
-
-        mPresenter.setView(this);
 
         Track track = null;
         Session session = null;
@@ -101,8 +100,6 @@ public class SessionDataMapsActivity extends FragmentActivity implements Session
 
 
         setUp(track, session);
-
-        mPresenter.setView(this);
     }
 
     protected void setUp(Track track, Session session) {

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -29,8 +31,8 @@ import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 public class TrackSessionDatesActivity extends AppCompatActivity implements TrackSessionDatesContract.View {
     private Long mTrackId;
 
-    @Inject
-    TrackSessionDatesContract.Presenter mPresenter;
+    @InjectPresenter
+    TrackSessionDatesPresenter mPresenter;
 
     @BindView(R.id.trackSessionDatesListView)
     ListView mTrackSessionDatesListView;
@@ -61,8 +63,6 @@ public class TrackSessionDatesActivity extends AppCompatActivity implements Trac
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
-
-        mPresenter.setView(this);
 
         setUp();
 

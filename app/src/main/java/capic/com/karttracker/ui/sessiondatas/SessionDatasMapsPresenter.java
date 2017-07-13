@@ -2,6 +2,9 @@ package capic.com.karttracker.ui.sessiondatas;
 
 import android.content.Context;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -24,9 +27,8 @@ import capic.com.karttracker.utils.SessionUtils;
  * Created by Vincent on 30/05/2017.
  */
 
-public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPresenter {
-    SessionDatasContract.MapsView mView;
-
+@InjectViewState
+public class SessionDatasMapsPresenter extends MvpPresenter<SessionDatasContract.MapsView> {
     private Session mSession;
 
     private List<SessionGpsData> mSessionGpsDataList;
@@ -42,12 +44,6 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
         mSessionDatasRepository = sessionGpsDatasRepository;
     }
 
-    @Override
-    public void setView(SessionDatasContract.MapsView view) {
-        mView = view;
-    }
-
-    @Override
     public void onStopSessionDatasClicked(Context context) {
         if (ServiceUtils.isMyServiceRunning(context, GpsService.class)) {
             mSession.setMEndTime(DateTime.now(DateTimeZone.forTimeZone(Calendar.getInstance().getTimeZone())).toLocalTime());
@@ -57,17 +53,14 @@ public class SessionDatasMapsPresenter implements SessionDatasContract.MapsPrese
         }
     }
 
-    @Override
     public Track loadTrack(Long trackId) {
         return mTracksRepository.getTrack(trackId);
     }
 
-    @Override
     public Session loadSession(Long sessionId) {
         return mTrackSessionsRepository.getSession(sessionId);
     }
 
-    @Override
     public void startNewSession(Context context, Long trackId) {
         mSession = SessionUtils.generateNewSessionForTheDay(mTrackSessionsRepository, trackId);
 

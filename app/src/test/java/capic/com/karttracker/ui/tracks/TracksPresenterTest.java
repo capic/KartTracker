@@ -1,5 +1,6 @@
 package capic.com.karttracker.ui.tracks;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.common.collect.Lists;
 
 import org.joda.time.LocalDate;
@@ -35,14 +36,14 @@ public class TracksPresenterTest {
     @Mock
     private SessionDatasRepository mSessionDatasRepository;
 
-    private TracksContract.Presenter mPresenter;
+    @InjectPresenter
+    private TracksPresenter mPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
         mPresenter = new TracksPresenter(mTrackRepository, mTrackSessionsRepository, mSessionDatasRepository);
-        mPresenter.setView(mView);
 
         trackList = Lists.newArrayList(new Track(1L, "Track 1"), new Track(2L, "Track 2"), new Track(3L, "Track 3"));
     }

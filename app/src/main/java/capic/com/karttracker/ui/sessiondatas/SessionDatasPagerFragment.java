@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.gms.location.LocationResult;
 
 import java.util.Arrays;
@@ -39,8 +40,8 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
 
     SessionDatasPagerAdapter mSessionDatasPagerAdapter;
 
-    @Inject
-    SessionDatasContract.DatasPresenter mPresenter;
+    @InjectPresenter
+    SessionDatasDatasPresenter mPresenter;
 
     @BindView(R.id.session_datas_pager)
     ViewPager mPager;
@@ -71,7 +72,6 @@ public class SessionDatasPagerFragment extends Fragment implements SessionDatasC
         View v = inflater.inflate(R.layout.fragment_session_datas_pager, container, false);
 
         ButterKnife.bind(this, v);
-        mPresenter.setView(this);
 
         if (getArguments() != null) {
             mPresenter.loadSessionDatas(getArguments().getLong(ARG_SESSION_ID));

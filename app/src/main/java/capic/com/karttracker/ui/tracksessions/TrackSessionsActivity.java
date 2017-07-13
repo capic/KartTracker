@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import org.joda.time.LocalDate;
 
 import java.util.Date;
@@ -32,8 +34,8 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
     private Long mTrackId;
     private LocalDate mSessionDate;
 
-    @Inject
-    TrackSessionsContract.Presenter mPresenter;
+    @InjectPresenter
+    TrackSessionsPresenter mPresenter;
 
     @BindView(R.id.track_sessions_list_view)
     ListView mTrackSessionsListView;
@@ -67,8 +69,6 @@ public class TrackSessionsActivity extends AppCompatActivity implements TrackSes
         ((KartTracker)getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
-
-        mPresenter.setView(this);
 
         setUp();
     }

@@ -1,5 +1,8 @@
 package capic.com.karttracker.ui.tracks;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -16,10 +19,9 @@ import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSess
 /**
  * Created by capic on 29/04/2017.
  */
+@InjectViewState
+public class TracksPresenter extends MvpPresenter<TracksContract.View> {
 
-public class TracksPresenter implements TracksContract.Presenter {
-
-    TracksContract.View mView;
     TracksRepository mTracksRepository;
     TrackSessionsRepository mTrackSessionRepository;
     SessionDatasRepository mSessionDatasRepository;
@@ -31,61 +33,49 @@ public class TracksPresenter implements TracksContract.Presenter {
         this.mSessionDatasRepository = sessionDatasRepository;
     }
 
-    @Override
-    public void setView(TracksContract.View view) {
-        this.mView = view;
-    }
-
-    @Override
     public void loadTracks() {
-        mView.showLoading();
+        getViewState().showLoading();
         List<Track> trackDataList = mTracksRepository.getAllTracks();
-        mView.showTracks(trackDataList);
-        mView.hideLoading();
+        getViewState().showTracks(trackDataList);
+        getViewState().hideLoading();
     }
 
-    @Override
     public void onCreateTrackClicked() {
-        mView.showCreateTrack();
+        getViewState().showCreateTrack();
     }
 
-    @Override
     public void onCreateTrack(Track track) {
         track = mTracksRepository.insertTrack(track);
-        mView.addTrack(track);
-        mView.openTrackSessionsActivity(track.getMId(), LocalDate.now());
+        getViewState().addTrack(track);
+        getViewState().openTrackSessionsActivity(track.getMId(), LocalDate.now());
     }
 
-    @Override
     public void onTrackItemClicked(Track track) {
-       mView.openTrackSessionDatesActivity(track.getMId());
+        getViewState().openTrackSessionDatesActivity(track.getMId());
     }
 
-    @Override
     public void onTrackPlayItemClicked(Track track) {
-        mView.openTrackSessionsActivity(track.getMId(), LocalDate.now());
+        getViewState().openTrackSessionsActivity(track.getMId(), LocalDate.now());
     }
 
-    @Override
     public void onDeleteTrackClicked(Track track) {
         // check if the track has sessions
         Long numberOfSessions = mTrackSessionRepository.getNumberOfSessionForTrack(track.getMId());
 
         if (numberOfSessions > 0) {
-            mView.showWarningDialogBoxTrackHasSessions(track);
+            getViewState().showWarningDialogBoxTrackHasSessions(track);
         } else {
             deleteTrack(track);
         }
     }
 
-    @Override
     public void onDeleteTrackWarningOkClicked(Track track) {
         deleteTrack(track);
     }
 
 
     private void deleteTrack(Track track) {
-        mView.showLoading();
+        getViewState().showLoading();
 
         for (Session session : mTrackSessionRepository.getSessionsByTrack(track.getMId())) {
             mSessionDatasRepository.deleteSessionData(session.getMId());
@@ -94,7 +84,7 @@ public class TracksPresenter implements TracksContract.Presenter {
 
         mTracksRepository.deleteTrack(track);
 
-        mView.removeTrack(track);
-        mView.hideLoading();
+        getViewState().removeTrack(track);
+        getViewState().hideLoading();
     }
 }

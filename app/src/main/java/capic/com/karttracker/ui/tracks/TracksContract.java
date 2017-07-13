@@ -1,5 +1,7 @@
 package capic.com.karttracker.ui.tracks;
 
+import com.arellomobile.mvp.MvpView;
+
 import org.joda.time.LocalDate;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import capic.com.karttracker.services.datas.models.Track;
  */
 
 public interface TracksContract {
-    public interface View {
+    public interface View extends MvpView {
         void showLoading();
         void hideLoading();
         void showTracks(List<Track> tracksList);
@@ -21,16 +23,5 @@ public interface TracksContract {
         void openTrackSessionsActivity(Long trackId, LocalDate sessionDate);
         void openTrackSessionDatesActivity(Long trackId);
         void showWarningDialogBoxTrackHasSessions(Track track);
-    }
-
-    public interface Presenter {
-        void setView(TracksContract.View view);
-        void loadTracks();
-        void onCreateTrackClicked();
-        void onCreateTrack(Track track);
-        void onTrackItemClicked(Track track);
-        void onTrackPlayItemClicked(Track track);
-        void onDeleteTrackClicked(Track track);
-        void onDeleteTrackWarningOkClicked(Track track);
     }
 }

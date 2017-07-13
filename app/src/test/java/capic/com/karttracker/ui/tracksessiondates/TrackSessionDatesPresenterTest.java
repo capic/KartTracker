@@ -1,5 +1,6 @@
 package capic.com.karttracker.ui.tracksessiondates;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.common.collect.Lists;
 
 import org.joda.time.LocalDate;
@@ -33,15 +34,14 @@ public class TrackSessionDatesPresenterTest {
     @Mock
     private TrackSessionsRepository mRepository;
 
-    private TrackSessionDatesContract.Presenter mPresenter;
+    @InjectPresenter
+    private TrackSessionDatesPresenter mPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
         mPresenter = new TrackSessionDatesPresenter(mRepository);
-        mPresenter.setView(mView);
-
         datesList = new ArrayList<>();
         datesList.add(LocalDate.parse("2017-01-01"));
         datesList.add(LocalDate.parse("2017-01-02"));

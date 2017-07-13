@@ -31,8 +31,7 @@ import capic.com.karttracker.services.datas.models.Track;
  */
 
 public class TrackItemAdapter extends ArrayAdapter<Track> implements Filterable {
-    @Inject
-    TracksContract.Presenter mPresenter;
+    TracksPresenter  mPresenter;
 
     private List<Track> mTracksList;
     private List<Track> mTracksFilteredList;

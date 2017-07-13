@@ -1,5 +1,8 @@
 package capic.com.karttracker.ui.sessiondatas;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,8 +15,8 @@ import capic.com.karttracker.services.datas.repositories.sessiondatas.SessionDat
  * Created by Vincent on 01/06/2017.
  */
 
-public class SessionDatasDatasPresenter implements SessionDatasContract.DatasPresenter {
-    private SessionDatasContract.DatasView mView;
+@InjectViewState
+public class SessionDatasDatasPresenter extends MvpPresenter<SessionDatasContract.DatasView> {
 
     SessionDatasRepository mRepository;
 
@@ -22,18 +25,12 @@ public class SessionDatasDatasPresenter implements SessionDatasContract.DatasPre
         this.mRepository = repository;
     }
 
-    @Override
-    public void setView(SessionDatasContract.DatasView view) {
-        mView = view;
-    }
-
-    @Override
     public void loadSessionDatas(Long sessionId) {
-        mView.showLoading();
+        getViewState().showLoading();
 
         List<SessionData> list = mRepository.getSessionDatasBySession(sessionId);
-        mView.showSessionDatas(list);
+        getViewState().showSessionDatas(list);
 
-        mView.hideLoading();
+        getViewState().hideLoading();
     }
 }
