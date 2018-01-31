@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.models.SessionGpsData;
 import capic.com.karttracker.services.datas.models.Track;
@@ -33,15 +34,16 @@ public class SessionDatasMapsPresenter extends MvpPresenter<SessionDatasContract
 
     private List<SessionGpsData> mSessionGpsDataList;
 
+    @Inject
     TracksRepository mTracksRepository;
+    @Inject
     TrackSessionsRepository mTrackSessionsRepository;
+    @Inject
     SessionDatasRepository mSessionDatasRepository;
 
-    @Inject
-    public SessionDatasMapsPresenter(TracksRepository tracksRepository, TrackSessionsRepository trackSessionsRepository, SessionDatasRepository sessionGpsDatasRepository) {
-        mTracksRepository = tracksRepository;
-        mTrackSessionsRepository = trackSessionsRepository;
-        mSessionDatasRepository = sessionGpsDatasRepository;
+
+    public SessionDatasMapsPresenter() {
+        KartTracker.getAppComponent().inject(this);
     }
 
     public void onStopSessionDatasClicked(Context context) {

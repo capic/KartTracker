@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.joda.time.LocalDate;
@@ -47,7 +48,7 @@ import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
 
-public class TracksActivity extends AppCompatActivity
+public class TracksActivity extends MvpAppCompatActivity
         implements TracksContract.View, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener  {
 
     private static final int REQUEST_CODE = 100;

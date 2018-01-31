@@ -18,7 +18,7 @@ import capic.com.karttracker.app.modules.DataModule;
  */
 
 public class KartTracker extends Application {
-    private AppComponent mAppComponent;
+    private static AppComponent mAppComponent;
     private DateFormat mDateFormat;
     private DateFormat mTimeFormat;
 
@@ -42,7 +42,7 @@ public class KartTracker extends Application {
         mAppComponent = appComponent;
     }
 
-    public AppComponent getAppComponent() {
+    public static AppComponent getAppComponent() {
         return mAppComponent;
     }
 

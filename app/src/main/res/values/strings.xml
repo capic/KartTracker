@@ -27,6 +27,7 @@
     <string name="text_acceleration_datas_x">Accel. X</string>
     <string name="text_acceleration_datas_y">Accel. Y</string>
     <string name="text_acceleration_datas_z">Accel. Z</string>
+    <string name="title_activity_hello_world">HelloWorldActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

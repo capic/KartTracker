@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "capic.com.karttracker"
         minSdkVersion 21
@@ -37,6 +37,9 @@ dependencies {
 //    compile 'io.reactivex:rxandroid:1.2.1'
 //    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
 
+    
+
+
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.google.dagger:dagger:2.10'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -47,18 +50,16 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.9'
     compile 'com.google.android.gms:play-services-maps:10.2.6'
     compile 'com.google.android.gms:play-services-location:10.2.6'
+    compile 'com.arello-mobile:moxy:1.5.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.5'
     testCompile 'org.robolectric:robolectric:3.3.2'
     testCompile 'joda-time:joda-time:2.9.9'
-    androidTestApt 'com.google.dagger:dagger-compiler:2.10'
-    apt 'com.google.dagger:dagger-compiler:2.10'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    //androidTestApt 'com.google.dagger:dagger-compiler:2.10'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
     provided 'javax.annotation:jsr250-api:1.0'
-    testApt 'com.google.dagger:dagger-compiler:2.10'
-    compile 'com.arello-mobile:moxy:1.5.3'
-    apt 'com.arello-mobile:moxy-compiler:1.5.3'
-    compile 'com.arello-mobile:moxy-android:1.5.3'
-    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
 }

@@ -43,7 +43,7 @@ public class TracksPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        mPresenter = new TracksPresenter(mTrackRepository, mTrackSessionsRepository, mSessionDatasRepository);
+        mPresenter = new TracksPresenter();
 
         trackList = Lists.newArrayList(new Track(1L, "Track 1"), new Track(2L, "Track 2"), new Track(3L, "Track 3"));
     }

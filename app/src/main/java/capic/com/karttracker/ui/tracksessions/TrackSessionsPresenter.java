@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import capic.com.karttracker.KartTracker;
 import capic.com.karttracker.services.datas.models.Session;
 import capic.com.karttracker.services.datas.repositories.tracksessions.TrackSessionsRepository;
 import capic.com.karttracker.utils.SessionUtils;
@@ -19,11 +20,12 @@ import capic.com.karttracker.utils.SessionUtils;
  */
 @InjectViewState
 public class TrackSessionsPresenter extends MvpPresenter<TrackSessionsContract.View> {
+    @Inject
     TrackSessionsRepository mTrackSessionsRepository;
 
-    @Inject
-    public TrackSessionsPresenter(TrackSessionsRepository trackSessionsRepository) {
-        mTrackSessionsRepository = trackSessionsRepository;
+
+    public TrackSessionsPresenter() {
+        KartTracker.getAppComponent().inject(this);
     }
 
     public void loadTrackSessions(Long trackId, LocalDate sessionDate) {

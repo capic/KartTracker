@@ -41,7 +41,7 @@ public class TrackSessionDatesPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        mPresenter = new TrackSessionDatesPresenter(mRepository);
+        mPresenter = new TrackSessionDatesPresenter();
         datesList = new ArrayList<>();
         datesList.add(LocalDate.parse("2017-01-01"));
         datesList.add(LocalDate.parse("2017-01-02"));

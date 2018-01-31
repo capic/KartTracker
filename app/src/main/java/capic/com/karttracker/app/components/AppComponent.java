@@ -8,11 +8,16 @@ import capic.com.karttracker.app.modules.SensorModule;
 import capic.com.karttracker.services.sensors.accelerometer.AccelerometerListener;
 import capic.com.karttracker.services.sensors.gps.LocationListener;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
+import capic.com.karttracker.ui.sessiondatas.SessionDatasDatasPresenter;
+import capic.com.karttracker.ui.sessiondatas.SessionDatasMapsPresenter;
 import capic.com.karttracker.ui.sessiondatas.SessionDatasPagerFragment;
 import capic.com.karttracker.ui.tracks.TrackItemAdapter;
 import capic.com.karttracker.ui.tracks.TracksActivity;
+import capic.com.karttracker.ui.tracks.TracksPresenter;
 import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesActivity;
+import capic.com.karttracker.ui.tracksessiondates.TrackSessionDatesPresenter;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
+import capic.com.karttracker.ui.tracksessions.TrackSessionsPresenter;
 import dagger.Component;
 
 /**
@@ -31,4 +36,10 @@ public interface AppComponent {
 
     void inject(LocationListener listener);
     void inject(AccelerometerListener listener);
+
+    void inject(TracksPresenter presenter);
+    void inject(TrackSessionDatesPresenter presenter);
+    void inject(TrackSessionsPresenter presenter);
+    void inject(SessionDatasDatasPresenter presenter);
+    void inject(SessionDatasMapsPresenter presenter);
 }

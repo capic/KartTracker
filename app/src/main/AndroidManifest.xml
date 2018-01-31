@@ -14,6 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--<activity-->
+            <!--android:name=".ui.HelloWorldActivity"-->
+            <!--android:label="@string/title_activity_hello_world"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
             android:name=".ui.tracks.TracksActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -49,9 +58,11 @@
             android:name=".ui.sessiondatas.SessionDataMapsActivity"
             android:label="@string/title_activity_session_data_maps">
 
-            <!--<meta-data
+            <!--
+                <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tracksessions.TrackSessionsActivity" />-->
+                android:value=".ui.tracksessions.TrackSessionsActivity" />
+            -->
         </activity>
 
         <service android:name=".services.sensors.gps.GpsService" />

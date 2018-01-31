@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.joda.time.LocalDate;
@@ -28,7 +29,7 @@ import capic.com.karttracker.R;
 import capic.com.karttracker.ui.sessiondatas.SessionDataMapsActivity;
 import capic.com.karttracker.ui.tracksessions.TrackSessionsActivity;
 
-public class TrackSessionDatesActivity extends AppCompatActivity implements TrackSessionDatesContract.View {
+public class TrackSessionDatesActivity extends MvpAppCompatActivity implements TrackSessionDatesContract.View {
     private Long mTrackId;
 
     @InjectPresenter
